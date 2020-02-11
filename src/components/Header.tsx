@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useGetUserInfo } from './customHooks'
 import { refreshAccessToken } from '../components/modules'
 import {updateAccessToken} from '../Action/userAction'
+import { useErrorHandle } from './errorHandle';
 
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
@@ -31,11 +32,16 @@ const Header = () => {
     //const userState = useSelector((state:any)=> state.userReducer)
     const [userState, getUserInfo, loading, error] = useGetUserInfo()
     const dispatch=useDispatch()
+    const [errorHandle] = useErrorHandle()
 
     console.log(userState)
     if(userState.accessExp < Date.now()/1000){
             newAccessToken(userState.refreshToken).then(resAccessToken => {
             console.log({resAccessToken})
+            if(resAccessToken.data.status==="failed"){
+                errorHandle(resAccessToken)
+                return null
+            }
             dispatch(updateAccessToken(resAccessToken.data.payload.access_token))
             getUserInfo()
         })

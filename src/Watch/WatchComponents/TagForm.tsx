@@ -9,7 +9,7 @@ import {tagState} from '../../Reducer/tagReducer'
 import {userState} from '../../Reducer/userReducer'
 import {Tag, User, tagTypes} from '../../Action/actionTypes'
 import {loadTag, addTag, deleteTag, updateTag} from '../../Action/tagAction'
-import { updateAccessToken } from '../../Action/userAction';
+import { updateAccessToken, signOut } from '../../Action/userAction';
 import { refreshAccessToken } from '../../components/modules'
 
 const tagSelector = (state :any) => {return state.tagReducer}
@@ -84,8 +84,10 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
     }
     const postNewTag = async () => {
         let sendData: tagState["movie"] | tagState["editor"]
-        if(tagType === "movie") sendData = tagState.movie
-        else sendData = tagState.editor
+        //if(tagType === "movie") sendData = tagState.movie
+        //else sendData = tagState.editor
+        sendData = (tagType === "movie")? tagState.movie : tagState.editor
+
         const accessToken = userState.accessToken
         const postResponce = await postNewMovie(accessToken, sendData)
         console.log(postResponce)
@@ -105,7 +107,7 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
                     dispatch(updateAccessToken(newAccessToken.data.payload.access_token))
                     break
                 case "002":// refresh token expired
-                    
+                    dispatch(signOut())       
                 break
             }
         }else if(postResponce.data.status==="success"){

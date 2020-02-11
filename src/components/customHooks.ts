@@ -1,4 +1,4 @@
-import { useState, useCallback, } from "react";
+import { useState, useCallback, Dispatch, } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Axios from "axios";
 import { setUserInfo } from "../Action/userAction";
@@ -66,3 +66,4 @@ export const useMovieInfo = () =>{
     }, [loading, error, userState])
     return [movieState, getMovieInfo, loading, error]
 }
+
