@@ -28,9 +28,9 @@ export const SortSelectField :React.FC<SelectFieldProps> = ({SelectChange, selec
             <FormControl>
                 <InputLabel>検索対象</InputLabel>
                 <Select onChange={SelectChange} value={selectValue}>
-                    <MenuItem value={"Latest"}>新着順</MenuItem>
-                    <MenuItem value={"PlayCount"}>再生数順</MenuItem>
-                    <MenuItem value={"Oldest"}>古い順</MenuItem>
+                    <MenuItem value={"latest"}>新着順</MenuItem>
+                    <MenuItem value={"playCount"}>再生数順</MenuItem>
+                    <MenuItem value={"oldest"}>古い順</MenuItem>
                 </Select>
             </FormControl>
         </>

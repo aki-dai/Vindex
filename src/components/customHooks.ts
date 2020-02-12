@@ -1,8 +1,9 @@
-import { useState, useCallback, Dispatch, } from "react";
+import { useState, useCallback, Dispatch, useEffect, } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Axios from "axios";
 import { setUserInfo } from "../Action/userAction";
 import { fetchMovie } from '../Action/tagAction'
+import { SearchStart, SearchComplete, SearchErrorAction} from '../Action/searchAction'
 
 export const useGetUserInfo = () => {
     const [loading, setLoading] = useState(false)
@@ -67,3 +68,35 @@ export const useMovieInfo = () =>{
     return [movieState, getMovieInfo, loading, error]
 }
 
+type APIStatus = 'initial' | 'waiting' | 'loading' | 'complete' | 'error'
+
+export const SearchEffect = () => {
+    const searchState = useSelector((state:any) => state.searchReducer)
+    const dispatch = useDispatch()
+    const status = searchState.searchStatus
+    const query = searchState.query
+    const sort = searchState.sort
+    useEffect(() => { 
+        (async () => {
+            if (status !== 'waiting') return
+            dispatch(SearchStart())
+            try{
+                const searchResult = await Axios.get('http://localhost:3000/api/v1/search',
+                    {
+                        params:{
+                            q: query
+                    }})
+                dispatch(SearchComplete(query, 
+                                        sort, 
+                                        searchResult.data.payload.count,
+                                        searchResult.data.payload.results))
+                
+            }catch(error){
+                dispatch(SearchErrorAction(query, 
+                                           sort,  
+                                           error))
+            }
+        }
+    )()}, [query, status])
+    return null
+}

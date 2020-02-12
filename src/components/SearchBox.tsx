@@ -4,10 +4,13 @@ import { textAlign } from '@material-ui/system';
 import queryString from 'query-string'
 import { useHistory, useLocation } from 'react-router';
 import { queryToWord, queryToScope } from './functions'
+import { useDispatch } from 'react-redux';
+import { SearchSubmit } from '../Action/searchAction' 
 
 export const SearchBox = () => { 
     const history = useHistory()
     const location = useLocation()
+    const dispatch = useDispatch()
     let initialWord  :string = ""
     let initialScope :string = "Tag"
     if (location.search) {
@@ -31,11 +34,13 @@ export const SearchBox = () => {
     }
     
     const search = () => {
+        if (searchWord == "") return null
         const queryObject = {
             q: searchWord.split(/\s+/),                                                       
             t: searchScope                                                                                         
         }
         const queryUrl:string = queryString.stringify(queryObject, {arrayFormat: 'comma'})
+        dispatch(SearchSubmit(searchWord, 'latest'))
         history.push('/search?' + queryUrl)
     }
 

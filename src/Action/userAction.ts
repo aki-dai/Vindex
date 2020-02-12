@@ -62,8 +62,8 @@ export function signOut(): UserActionTypes{
 }
 
 export function leaveUser(): UserActionTypes{
-
     return {
         type    : LEAVE_USER,
     }
 }
+

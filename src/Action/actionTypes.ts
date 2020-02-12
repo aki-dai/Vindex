@@ -15,16 +15,23 @@ export const SET_USER_INFO = 'SET_USER_INFO'
 export const SIGN_OUT = 'SIGN_OUT'
 export const LEAVE_USER = 'LEAVE_USER'
 
+export const SEARCH_SUBMIT = 'SEARCH_ACTION_SUBMIT'
+export const SEARCH_START = 'SEARCH_ACTION_START'
+export const SEARCH_COMPLETE = 'SEARCH_ACTION_COMPLETE'
+export const SEARCH_ERROR = 'SEARCH_ACTION_ERROR'
+
+
+export type APIStatus = 'initial' | 'waiting' | 'loading' | 'complete' | 'error'
 
 export interface Contributer{
-    userID: string
+    userID?: string
     userName: string
 }
 
 export interface Tag{
-    contributer : Contributer
-    value       : string
-    youtubeID   : string
+    contributer? : Contributer
+    value        : string
+    youtubeID    : string
 }
 
 export interface User{
@@ -122,4 +129,47 @@ export type UserActionTypes = AuthUserAction |
                               UpdateTokensAction |
                               SignOutUserAction |
                               LeaveUserAction
+
+export interface SearchIndex {
+    youtube_id: string
+    channelName: string
+    title: string
+    thumbnail: string
+    tags: Tag[]
+}
+
+export type sortType = 'latest' | 'oldest' | 'new_movie' | 'previous_movie'
+
+export interface SearchSubmitAction {
+    type: typeof SEARCH_SUBMIT
+    payload: {
+        query: string
+        sort: sortType
+    }
+}
  
+export interface SearchStartAction {
+    type: typeof SEARCH_START   
+}
+ 
+export interface SearchCompleteAction {
+    type: typeof SEARCH_COMPLETE
+    payload:{
+        query: string
+        count: number
+        sort: sortType
+        results:SearchIndex[]
+    }
+}
+ 
+export interface SearchErrorAction {
+    type: typeof SEARCH_ERROR
+    query: string
+    sort: sortType
+    error: unknown
+}
+
+export type SearchActionTypes = SearchSubmitAction |
+                                SearchStartAction |
+                                SearchCompleteAction |
+                                SearchErrorAction
