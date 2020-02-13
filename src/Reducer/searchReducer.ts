@@ -40,6 +40,15 @@ const searchReducer = (state = initialState, action:SearchActionTypes) => {
 
         case "SEARCH_ACTION_COMPLETE":{
             const {count, results} = action.payload
+            results.map((result) => {
+                result.tags.sort((a,b) => {
+                    if(typeof a.count == "number" && typeof b.count == "number" ){
+                        return (a.count < b.count) ? 1 : -1
+                    }else{
+                        return 0
+                    }
+                })
+            })
             return{
                 ...state,
                 searchStatus: 'complete',

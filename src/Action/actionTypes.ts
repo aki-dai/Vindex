@@ -30,6 +30,7 @@ export interface Contributer{
 
 export interface Tag{
     contributer? : Contributer
+    count?       : number
     value        : string
     youtubeID    : string
 }

@@ -75,6 +75,7 @@ interface TagsProp{
 }
 
 const Tags:React.FC<TagsProp> = ({tags}) => {
+
     return(
         <>  
             <CardActions>
