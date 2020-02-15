@@ -8,6 +8,7 @@ import { useGetUserInfo } from './customHooks'
 import { refreshAccessToken } from '../components/modules'
 import {updateAccessToken} from '../Action/userAction'
 import { useErrorHandle } from './errorHandle';
+import {rootUrl} from '../serverUrl'
 
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
@@ -51,7 +52,7 @@ const Header = () => {
     }, [userState.accessToken])
 
     const twitterLogin = () => {
-        window.location.href="http://localhost:3000/api/v1/auth/twitter"
+        window.location.href= rootUrl + "/auth/twitter"
     }
 
     const linkToTop = () => {

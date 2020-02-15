@@ -11,5 +11,5 @@ export const theme = createMuiTheme({
         textTransform: "none"
     }
   },
-  spacing: 8
+  spacing: 8,
 });

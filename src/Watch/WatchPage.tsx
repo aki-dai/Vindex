@@ -6,6 +6,7 @@ import { TagForm } from './WatchComponents/TagForm';
 import {RouteComponentProps} from 'react-router-dom'
 import { tagTypes, Tag } from '../Action/actionTypes'
 import Axios from 'axios';
+import {rootUrl} from '../serverUrl'
 
 type WatchPageProps = {
     youtubeID?      : string
@@ -27,7 +28,7 @@ export const Watch:React.FC<WatchPageProps> = ({youtubeID, title, channelName, t
     else vid = ""
     useEffect(() => {
         if(tagType === "movie"){
-            Axios.get("http://localhost:3000/api/v1/movie/", {
+            Axios.get(rootUrl + "/movie/", {
                 params:{
                     youtube_id: vid
                 }

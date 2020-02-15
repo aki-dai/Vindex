@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useSelector } from 'react-redux';
+import {rootUrl} from '../serverUrl'
 
 export const decodeJwt = (token:string) => {
     const base64Url = token.split('.')[1]
@@ -9,7 +10,7 @@ export const decodeJwt = (token:string) => {
 
 
 export const refreshAccessToken = (refreshToken: string) => {
-    return axios.put('http://localhost:3000/api/v1/users/',{
+    return axios.put(rootUrl + '/users/',{
             refresh_token: refreshToken
         })
 }

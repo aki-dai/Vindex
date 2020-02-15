@@ -4,6 +4,7 @@ import Axios from "axios";
 import { setUserInfo } from "../Action/userAction";
 import { fetchMovie } from '../Action/tagAction'
 import { SearchStart, SearchComplete, SearchErrorAction} from '../Action/searchAction'
+import { rootUrl } from '../serverUrl'
 
 export const useGetUserInfo = () => {
     const [loading, setLoading] = useState(false)
@@ -16,7 +17,7 @@ export const useGetUserInfo = () => {
         if(!userState.authenticated) return null
         setLoading(true)
         try{
-            const result = await Axios.get("http://localhost:3000/api/v1/users/",{
+            const result = await Axios.get(rootUrl + "/users/",{
                 params: {
                     access_token: accessToken
                 }})
@@ -48,7 +49,7 @@ export const useMovieInfo = () =>{
 
     const getMovieInfo = useCallback(async (youtubeID: string, youtubeUrl :string) => {
         if(!userState.authenticated || !youtubeID) return null
-        const fetchURL: string = "http://localhost:3000/api/v1/movie_fetch/"+youtubeID
+        const fetchURL: string = rootUrl + "/movie_fetch/"+youtubeID
         setLoading(true)
 
         try{
@@ -81,7 +82,7 @@ export const SearchEffect = () => {
             if (status !== 'waiting') return
             dispatch(SearchStart())
             try{
-                const searchResult = await Axios.get('http://localhost:3000/api/v1/search',
+                const searchResult = await Axios.get(rootUrl + "/search",
                     {
                         params:{
                             q: query

@@ -15,6 +15,7 @@
     "@types/react-router-dom": "^5.1.2",
     "@types/redux-persist": "^4.3.1",
     "@types/redux-thunk": "^2.1.0",
+    "@types/remote-redux-devtools": "^0.5.4",
     "axios": "^0.19.0",
     "query-string": "^6.9.0",
     "react": "^16.12.0",
@@ -26,10 +27,11 @@
     "react-scripts": "3.2.0",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
+    "remote-redux-devtools": "^0.5.16",
     "typescript": "3.7.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "HTTPS=true react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -60,5 +62,6 @@
     "enzyme-adapter-react-16": "^1.15.1",
     "react-router": "^5.1.2",
     "react-test-renderer": "^16.12.0"
-  }
+  },
+  "prestart": "rm ./node_modules/webpack-dev-server/ssl/server.pem && cat ./localhost-key.pem ./localhost.pem > ./node_modules/webpack-dev-server/ssl/server.pem"
 }

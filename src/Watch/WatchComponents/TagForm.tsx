@@ -11,6 +11,7 @@ import {Tag, User, tagTypes} from '../../Action/actionTypes'
 import {loadTag, addTag, deleteTag, updateTag} from '../../Action/tagAction'
 import { updateAccessToken, signOut } from '../../Action/userAction';
 import { refreshAccessToken } from '../../components/modules'
+import {rootUrl} from '../../serverUrl'
 
 const tagSelector = (state :any) => {return state.tagReducer}
 const userSelector = (state :any) => {return state.userReducer}
@@ -76,7 +77,7 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
     }
 
     const postNewMovie = (accessToken:string, payload: tagState["movie"] | tagState["editor"]) => {
-        return axios.post('http://localhost:3000/api/v1/movies/',{
+        return axios.post(rootUrl + '/movies/',{
             access_token: accessToken,
             youtube_id: youtubeID,
             payload: payload
