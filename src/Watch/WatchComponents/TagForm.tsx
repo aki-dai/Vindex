@@ -76,13 +76,23 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
         setFocusedTag(-1)
     }
 
-    const postNewMovie = (accessToken:string, payload: tagState["movie"] | tagState["editor"]) => {
-        return axios.post(rootUrl + '/movies/',{
-            access_token: accessToken,
-            youtube_id: youtubeID,
-            payload: payload
-        })
+    const postNewMovie = (accessToken:string, payload: tagState["movie"] | tagState["editor"], tagType:tagTypes) => {
+        if(tagType==="editor"){
+            return axios.post(rootUrl + '/movies/',{
+                access_token: accessToken,
+                youtube_id: youtubeID,
+                payload: payload
+            })
+        }
+        else{
+            return axios.put(rootUrl + '/movies/' + youtubeID,{
+                access_token: accessToken,
+                youtube_id: youtubeID,
+                payload: payload
+            })
+        }
     }
+
     const postNewTag = async () => {
         let sendData: tagState["movie"] | tagState["editor"]
         //if(tagType === "movie") sendData = tagState.movie
@@ -90,7 +100,7 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
         sendData = (tagType === "movie")? tagState.movie : tagState.editor
 
         const accessToken = userState.accessToken
-        const postResponce = await postNewMovie(accessToken, sendData)
+        const postResponce = await postNewMovie(accessToken, sendData, tagType)
         console.log(postResponce)
         if(postResponce.data.status === "failed"){
             switch(postResponce.data.error_code){
@@ -100,7 +110,7 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
                     console.log(newAccessToken)
                     if(newAccessToken.data.status === "success"){
 
-                        const repostResponce = await postNewMovie(newAccessToken.data.payload.access_token, sendData)
+                        const repostResponce = await postNewMovie(newAccessToken.data.payload.access_token, sendData, tagType)
                         if(repostResponce.data.status === "success"){
                             console.log("success video post!")
                         }
@@ -112,7 +122,7 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
                 break
             }
         }else if(postResponce.data.status==="success"){
-            console.log("success video post!")
+            console.log(postResponce.data.message)
         }
     }
 

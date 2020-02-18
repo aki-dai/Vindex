@@ -7,6 +7,8 @@ import {RouteComponentProps} from 'react-router-dom'
 import { tagTypes, Tag } from '../Action/actionTypes'
 import Axios from 'axios';
 import {rootUrl} from '../serverUrl'
+import { useSelector, useDispatch } from 'react-redux';
+import { loadTag } from '../Action/tagAction';
 
 type WatchPageProps = {
     youtubeID?      : string
@@ -22,21 +24,25 @@ interface RouteParams{
 export const Watch:React.FC<WatchPageProps> = ({youtubeID, title, channelName, tagType}) => {
     let urlParams= useParams<RouteParams>()
     let vid: string
-    let tags: Tag
+    let tags: Tag[]
+    const tagState = useSelector((state:any) => state.tagReducer)
+    const dispatch = useDispatch()
     if(urlParams.id) vid = urlParams.id
     else if(youtubeID) vid = youtubeID
     else vid = ""
+
+    console.log({tagState,  })
     useEffect(() => {
-        if(tagType === "movie"){
-            Axios.get(rootUrl + "/movie/", {
-                params:{
-                    youtube_id: vid
-                }
-            }).then((res) => {
-                title = res.data.payload.movie.title
-                channelName = res.data.payload.movie.channelName
-                tags = res.data.payload.tag
-            })
+        if(tagType === "movie" && tagState.movie.youtubeID !== vid){
+            Axios.get( 
+                    rootUrl + "/movies/" + vid
+                ).then((res) => {
+                    tags = res.data.payload.tag
+                    console.log({res, tags})
+                    dispatch(loadTag(vid, tags, tagType))
+                }).catch((error) => {
+                    console.log({error})
+                })
         }
     },[vid])
     let url:string = "https://www.youtube.com/watch?v=" + vid

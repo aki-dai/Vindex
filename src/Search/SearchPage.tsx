@@ -14,9 +14,11 @@ export const Search: React.FC = () => {
     return(
         <>
             <SearchEffect />
-            <SearchBox />
-            <SearchConditions />
-            <SearchContainer />
+            <Container fixed>
+                <SearchBox />
+                <SearchConditions />
+                <SearchContainer />
+            </Container>
         </>
     )
 }
