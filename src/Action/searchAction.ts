@@ -1,4 +1,4 @@
-import {SearchActionTypes, SearchIndex, sortType} from './actionTypes'
+import {SearchActionTypes, ResultIndex, sortType} from './actionTypes'
 import { queryToScope } from '../components/functions';
 
 export function SearchSubmit(q: string, sort: sortType): SearchActionTypes{
@@ -17,7 +17,7 @@ export function SearchStart(): SearchActionTypes{
     }
 }
 
-export function SearchComplete(q: string, sort: sortType, count:number, results:SearchIndex[]): SearchActionTypes{
+export function SearchComplete(q: string, sort: sortType, count:number, results:ResultIndex[]): SearchActionTypes{
     return {
         type:'SEARCH_ACTION_COMPLETE',
         payload:{

@@ -1,4 +1,4 @@
-import { APIStatus, sortType, SearchIndex, SearchActionTypes } from '../Action/actionTypes'
+import { APIStatus, sortType, ResultIndex, SearchActionTypes } from '../Action/actionTypes'
 
 
 export interface searchState{
@@ -6,7 +6,7 @@ export interface searchState{
     query: string
     sort: sortType
     searchCount: number
-    searchResult: SearchIndex[]
+    searchResult: ResultIndex[]
 } 
 
 const initialState:searchState = {

@@ -7,6 +7,7 @@ import { Container, Grid, Box } from '@material-ui/core';
 export const Top = () => {
     return(
         <>
+            
             <Caption />
             <SearchBox />
         </>

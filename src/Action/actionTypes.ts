@@ -131,7 +131,7 @@ export type UserActionTypes = AuthUserAction |
                               SignOutUserAction |
                               LeaveUserAction
 
-export interface SearchIndex {
+export interface ResultIndex {
     youtube_id: string
     channelName: string
     title: string
@@ -159,7 +159,7 @@ export interface SearchCompleteAction {
         query: string
         count: number
         sort: sortType
-        results:SearchIndex[]
+        results:ResultIndex[]
     }
 }
  

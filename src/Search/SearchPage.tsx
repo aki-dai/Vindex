@@ -1,7 +1,7 @@
 import React from 'react';
 import { SearchBox } from '../components/SearchBox'
 import { SearchConditions } from './SearchComponent/SearchConditions'
-import { SearchContainer } from './SearchComponent/SearchResults'
+import { SearchWrapper } from './SearchComponent/SearchResults'
 import { SearchEffect } from '../components/customHooks'
 
 import queryString from 'query-string';
@@ -17,7 +17,7 @@ export const Search: React.FC = () => {
             <Container fixed>
                 <SearchBox />
                 <SearchConditions />
-                <SearchContainer />
+                <SearchWrapper />
             </Container>
         </>
     )

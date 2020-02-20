@@ -2,8 +2,17 @@ import React from 'react';
 import { CardMedia, Typography, Button, Card, CardActions, CardContent, Container, makeStyles, Grid } from '@material-ui/core';
 import { Link, useLocation, Redirect, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { SearchIndex, Tag } from '../../Action/actionTypes'
+import { ResultIndex, Tag } from '../../Action/actionTypes'
 import { loadTag } from '../../Action/tagAction'
+
+export const SearchWrapper = () => {
+    const searchIndex:ResultIndex[] = useSelector((state:any) => state.searchReducer.searchResult)
+    return(
+        <>
+            <SearchContainer props={searchIndex} />
+        </>
+    )
+}
 
 const useContainerStyles = makeStyles(theme => ({
     root:{
@@ -12,13 +21,16 @@ const useContainerStyles = makeStyles(theme => ({
     }
 }))
 
-export const SearchContainer = () => {
-    const searchIndex = useSelector((state:any) => state.searchReducer.searchResult)
+interface SearchContainerType {
+    props:ResultIndex[]
+}
+
+const SearchContainer:React.FC<SearchContainerType> = ({props}) => {
     const classes = useContainerStyles()
     return(
         <>
             <Grid container className={classes.root}>
-                {searchIndex.map((value:SearchIndex, index:number) => <SearchResult {...value} key={index}/>)}
+                {props.map((value:ResultIndex, index:number) => <SearchResult {...value} key={index}/>)}
             </Grid>
         </>
     )
@@ -32,7 +44,7 @@ const useCardStyles = makeStyles(theme => ({
     }
 }))
 
-const SearchResult:React.FC<SearchIndex> = (props) => {
+const SearchResult:React.FC<ResultIndex> = (props) => {
     let location = useLocation()
     let history = useHistory()
     const vid: string = props.youtube_id
@@ -48,15 +60,10 @@ const SearchResult:React.FC<SearchIndex> = (props) => {
     return(
         <>
             <Card className={classes.root}>
-                {/*<Link to={{pathname: `/watch/` + vid,
-                        state:   { background: location }
-                        }}
-                    >*/}
                 <div onClick={() => LinkToMovie()}>
                     <Thumbnail url={thumbUrl} />
                     <MovieInfo title={props.title} channelName={props.channelName} />
                 </div>
-                {/*</Link>*/}
                 <Tags tags={props.tags}/>
             </Card>
         </>
