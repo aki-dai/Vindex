@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button, TextField, Typography, Icon } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
-import { useLocation } from 'react-router';
+import { useLocation, useHistory } from 'react-router';
 import axios from 'axios';
 
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +12,7 @@ import {loadTag, addTag, deleteTag, updateTag} from '../../Action/tagAction'
 import { updateAccessToken, signOut } from '../../Action/userAction';
 import { refreshAccessToken } from '../../components/modules'
 import {rootUrl} from '../../serverUrl'
+import {useSearch} from '../../components/customHooks'
 
 const tagSelector = (state :any) => {return state.tagReducer}
 const userSelector = (state :any) => {return state.userReducer}
@@ -40,6 +41,7 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
     const[focusedTag, setFocusedTag] = useState<number>(-1)
     const[errorMessage, setError] = useState<string>("")
     let tags: Tag[]
+    const history = useHistory()
 
     if(tagType === "movie") tags = tagState.movie.tags
     else if(tagType === "editor") tags = tagState.editor.tags
@@ -50,11 +52,11 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
     const changeTextField = (e:any) => {
         setTextField(e.target.value)
     }
-
+    
     const setNewTag = () => {
         setError("")
-        const replacedText = TagTextField.replace(/\s+/g, "")
-        if(!replacedText) return null
+        const replacedText = TagTextField.replace(/^\s+/, "").replace(/\s+$/, "").replace(/\s+/g, "_")
+        if(replacedText.replace(/\s+/, "")==="") return null
         if(tags.some(c => c.value === replacedText)){
             setError("重複するタグです")
             return null
@@ -120,9 +122,13 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
                 case "002":// refresh token expired
                     dispatch(signOut())       
                 break
+                case "101"://unresisted movie
+                    console.log(postResponce.data.message)
+                break
             }
         }else if(postResponce.data.status==="success"){
             console.log(postResponce.data.message)
+            history.push('/resistration/success')
         }
     }
 
@@ -171,12 +177,13 @@ const TagButton:React.FC<TagButtonProps> = ({props, isToggled, onClick, deleteTa
             backgroundColor: "#eee",
             borderRadius   : 5,
         }
+        const setSearch = useSearch()
 
         if(location.pathname==="/registration") return null
         else return(
             <div style={MenuStyle}>
-                <Typography variant={"body1"}>このタグで検索</Typography>
-                <Typography variant={"body1"}>このタグをミュート</Typography>
+                <Typography variant={"body1"} onClick={() => setSearch(props ,"Tag")}>このタグで検索</Typography>
+                {/*<Typography variant={"body1"}>このタグをミュート</Typography>*/}
             </div>
         )
     }

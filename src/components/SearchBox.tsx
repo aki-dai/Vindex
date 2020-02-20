@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import {Select, MenuItem, TextField, InputLabel, FormControl, Input, Button} from '@material-ui/core/'
 import { textAlign } from '@material-ui/system';
-import queryString from 'query-string'
 import { useHistory, useLocation } from 'react-router';
-import { queryToWord, queryToScope } from './functions'
-import { useDispatch } from 'react-redux';
-import { SearchSubmit } from '../Action/searchAction' 
+import { queryToWord, queryToScope } from './functions' 
+import { useSearch } from './customHooks'
 
-export const SearchBox = () => { 
-    const history = useHistory()
+export const SearchBox = () => {
     const location = useLocation()
-    const dispatch = useDispatch()
+    const setSearch = useSearch()
     let initialWord  :string = ""
     let initialScope :string = "Tag"
     if (location.search) {
@@ -33,22 +30,12 @@ export const SearchBox = () => {
         setSearchWord(event.target.value)
     }
     
-    const search = () => {
-        if (searchWord == "") return null
-        const queryObject = {
-            q: searchWord.split(/\s+/),                                                       
-            t: searchScope                                                                                         
-        }
-        const queryUrl:string = queryString.stringify(queryObject, {arrayFormat: 'comma'})
-        dispatch(SearchSubmit(searchWord, 'latest'))
-        history.push('/search?' + queryUrl)
-    }
 
     return(
         <>    
             <SelectField SelectChange={SelectChange} selectValue={searchScope}/>
             <InputField TextFieldChange={TextFieldChange} textValue={searchWord} />
-            <SearchButton onClick={search}/>
+            <SearchButton onClick={() => setSearch(searchWord, searchScope)}/>
         </>
     )
 }

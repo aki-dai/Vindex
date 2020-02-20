@@ -5,6 +5,28 @@ import { setUserInfo } from "../Action/userAction";
 import { fetchMovie } from '../Action/tagAction'
 import { SearchStart, SearchComplete, SearchErrorAction} from '../Action/searchAction'
 import { rootUrl } from '../serverUrl'
+import queryString from 'query-string'
+import { useHistory } from 'react-router'
+import { SearchSubmit } from '../Action/searchAction' 
+
+export const useSearch = () => {
+    const history = useHistory()
+    const dispatch = useDispatch()
+
+    const setSearch = (searchWord:string, searchScope:string) => {
+        if (searchWord == "") return null
+        
+        const queryObject = {
+            q: searchWord.split(/\s+/),                                                       
+            t: searchScope                                                                                         
+        }
+        const queryUrl:string = queryString.stringify(queryObject, {arrayFormat: 'comma'})
+        dispatch(SearchSubmit(searchWord, 'latest'))
+        history.push('/search?' + queryUrl)
+    }
+    return setSearch
+}
+
 
 export const useGetUserInfo = () => {
     const [loading, setLoading] = useState(false)
