@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, Switch, useLocation } from 'react-router-dom';
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -46,7 +46,7 @@ const App: React.FC = () => {
                 </Route>
               </Switch>
 
-              {background && <Route path="/watch/:id" children={<WatchModal />} />}
+              {background && <Route path="/watch/:id" children={<WatchModal/>} />}
 
             </Grid>
           </Grid>

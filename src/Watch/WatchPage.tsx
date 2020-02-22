@@ -59,32 +59,32 @@ export const Watch:React.FC<WatchPageProps> = ({youtubeID, title, channelName, t
 
     return(
         <>
-            <Container maxWidth="lg">
-                <Grid container direction="row" >
-                    <Grid item xs={12} md={9}>
-                        <Grid container direction="column">
-                            <Grid item>
-                                <ReactPlayer 
-                                    url={url}
-                                    config={config}/>
-                            </Grid>
+            <Grid container direction="row" >
+                <Grid item xs={12} md={9}>
+                    <Grid container direction="column">
+                        <Grid item>
+                            <ReactPlayer 
+                                url={url}
+                                config={config}
+                                width={640}
+                                />
+                        </Grid>
 
-                            <Grid item>
-                                <Typography variant="body1">
-                                    {title}
-                                </Typography>
-                                <Typography variant="body1">
-                                    {channelName}
-                                </Typography>
-                            </Grid>             
+                        <Grid item>
+                            <Typography variant="body1">
+                                {title}
+                            </Typography>
+                            <Typography variant="body1">
+                                {channelName}
+                            </Typography>
                         </Grid>
                     </Grid>
-                      
-                    <Grid item xs={12} md={3}>
-                        <TagForm youtubeID={vid} tagType={tagType}/>    
-                    </Grid>
                 </Grid>
-            </Container>
+                    
+                <Grid item xs={12} md={3}>
+                    <TagForm youtubeID={vid} tagType={tagType}/>    
+                </Grid>
+            </Grid>
         </>
     )
 }
