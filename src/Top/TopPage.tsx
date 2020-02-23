@@ -8,9 +8,12 @@ import { NewMovies } from './TopComponents/NewMovies';
 export const Top = () => {
     return(
         <>
-            
-            <Caption />
-            <SearchBox />
+            <Grid container justify={"center"}>
+                <Grid item>
+                    <Caption />
+                    <SearchBox />
+                </Grid>
+            </Grid>
             <NewMovies/>
         </>
     )

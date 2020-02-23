@@ -4,6 +4,7 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { ResultIndex, Tag } from '../Action/actionTypes'
 import { loadTag } from '../Action/tagAction'
+import { useSearch } from './customHooks';
 
 const useContainerStyles = makeStyles(theme => ({
     root:{
@@ -100,12 +101,12 @@ interface TagsProp{
 }
 
 const Tags:React.FC<TagsProp> = ({tags}) => {
-
+    const setSearch = useSearch()
     return(
         <>  
                 {tags.map((tag, index) => {
                     return(
-                        <Button key={index}>
+                        <Button onClick={() => setSearch(tag.value ,"Tag")} key={index}>
                             {tag.value}
                         </Button>
                     )

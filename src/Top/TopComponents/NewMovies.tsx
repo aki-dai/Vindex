@@ -4,6 +4,7 @@ import { SearchEffect } from '../../components/customHooks'
 import Axios from 'axios'
 import { rootUrl } from '../../serverUrl'
 import { ResultIndex, Tag } from '../../Action/actionTypes'
+import { Typography } from '@material-ui/core'
 
 export const NewMovies = () => {
     const [results, setResults] = useState<ResultIndex[]>([])
@@ -17,6 +18,9 @@ export const NewMovies = () => {
     console.log(results)
     return(
         <>
+            <Typography variant={"h5"} >
+                新着動画
+            </Typography>
             <SearchContainer props={results} />
         </>
     )
