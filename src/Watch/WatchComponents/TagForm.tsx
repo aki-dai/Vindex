@@ -37,9 +37,12 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
     const dispatch = useDispatch()
     const tagState:tagState = useSelector(tagSelector)
     const userState:userState = useSelector(userSelector)
+    const location = useLocation()
     const[TagTextField, setTextField] = useState<string>("")
     const[focusedTag, setFocusedTag] = useState<number>(-1)
     const[errorMessage, setError] = useState<string>("")
+    const[isEditing, setEditing]=useState<boolean>((tagType==="editor"))
+    const[isNotificationModal, setNotificationModal] = useState<boolean>(false)
     let tags: Tag[]
     const history = useHistory()
 
@@ -57,6 +60,10 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
         setError("")
         const replacedText = TagTextField.replace(/^\s+/, "").replace(/\s+$/, "").replace(/\s+/g, "_")
         if(replacedText.replace(/\s+/, "")==="") return null
+        if(replacedText.length > 64){
+
+            
+        }
         if(tags.some(c => c.value === replacedText)){
             setError("重複するタグです")
             return null
@@ -114,7 +121,7 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
 
                         const repostResponce = await postNewMovie(newAccessToken.data.payload.access_token, sendData, tagType)
                         if(repostResponce.data.status === "success"){
-                            console.log("success video post!")
+                           setNotificationModal(true)
                         }
                     }
                     dispatch(updateAccessToken(newAccessToken.data.payload.access_token))
@@ -127,9 +134,50 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
                 break
             }
         }else if(postResponce.data.status==="success"){
-            console.log(postResponce.data.message)
-            history.push('/resistration/success')
+            setNotificationModal(true)
         }
+    }
+
+    const NotificationModal:React.FC = () => {
+        const closeModal = (e:any) => {
+            setNotificationModal(false)
+            e.stopPropagation();
+        }
+    
+        return(
+            <div onClick={closeModal}
+                style={{
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    bottom: 0,
+                    right: 0,
+                    background: "rgba(0, 0, 0, 0.3)"
+                }}
+            >
+                <div className="modal"
+                    style={{
+                        position: "fixed",
+                        top: 80,
+                        left: 0,
+                        right: 0,
+                        minWidth: 640,
+                        maxWidth: 860,
+                        maxHeight: 640,
+                        overflow: "auto",
+                        width: "90%",
+                        margin: "auto",
+                        padding: 15,
+                        background: "rgba(255, 255, 255, 1)"
+                    }}
+                    onClick={(e)=>e.stopPropagation()}
+                >
+                    <Typography variant={"h5"}>
+                        タグを更新しました
+                    </Typography>
+                </div>
+            </div>
+        )
     }
 
     return(
@@ -140,17 +188,27 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
                            isToggled={(index===focusedTag)} 
                            onClick={() => setToggleTagMenu(index)}
                            deleteTag={() => deleteTagAction()}/>
-            )}    
-            <TextField onChange={changeTextField} value={TagTextField} />
-            <Button variant="outlined" onClick={setNewTag}>
-                タグを登録
-            </Button>
-            
-            <Button variant="outlined" onClick={postNewTag}>
-                保存
-            </Button>
-
+            )}
+            {isEditing && (
+                <>
+                    <TextField onChange={changeTextField} value={TagTextField} />
+                    <Button variant="outlined" onClick={setNewTag}>
+                        タグを登録
+                    </Button>
+                    
+                    <Button variant="outlined" onClick={postNewTag}>
+                        保存
+                    </Button>
+                </>
+            )}
+            {!isEditing &&(
+                <Button variant="outlined" onClick={()=>setEditing(true)}>
+                    タグを追加する
+                </Button>
+            )}
+                
             {errorMessage}
+            {isNotificationModal && <NotificationModal />}
         </>
     )
 }
@@ -200,3 +258,4 @@ const TagButton:React.FC<TagButtonProps> = ({props, isToggled, onClick, deleteTa
         </>
     )
 }
+

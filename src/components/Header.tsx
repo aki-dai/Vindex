@@ -9,6 +9,7 @@ import { refreshAccessToken } from '../components/modules'
 import {updateAccessToken} from '../Action/userAction'
 import { useErrorHandle } from './errorHandle';
 import {rootUrl} from '../serverUrl'
+import {setRedirectUrl} from '../Action/authAction'
 
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
@@ -30,6 +31,7 @@ const newAccessToken = async (refreshToken: string) => {
 const Header = () => {
     const history = useHistory()
     const location = useLocation()
+    console.log({history, location})
     //const userState = useSelector((state:any)=> state.userReducer)
     const [userState, getUserInfo, loading, error] = useGetUserInfo()
     const dispatch=useDispatch()
@@ -52,6 +54,8 @@ const Header = () => {
     }, [userState.accessToken])
 
     const twitterLogin = () => {
+        const redirectPath = location.pathname + location.search
+        dispatch(setRedirectUrl(redirectPath))
         window.location.href= rootUrl + "/auth/twitter"
     }
 

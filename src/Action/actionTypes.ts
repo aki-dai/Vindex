@@ -20,6 +20,7 @@ export const SEARCH_START = 'SEARCH_ACTION_START'
 export const SEARCH_COMPLETE = 'SEARCH_ACTION_COMPLETE'
 export const SEARCH_ERROR = 'SEARCH_ACTION_ERROR'
 
+export const AUTH = 'AUTH'
 
 export type APIStatus = 'initial' | 'waiting' | 'loading' | 'complete' | 'error'
 
@@ -174,3 +175,8 @@ export type SearchActionTypes = SearchSubmitAction |
                                 SearchStartAction |
                                 SearchCompleteAction |
                                 SearchErrorAction
+
+export interface AuthAction {
+    type: typeof AUTH
+    url: string
+}

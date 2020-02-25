@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useHistory, useParams } from 'react-router';
-import { Watch } from './WatchPage';
+import { Notification } from './Notification'
 
 
-export const WatchModal = () => {
+export const NotificationModal = () => {
     let history = useHistory()
-    let { id } = useParams()
-    if(!id) return null
+    let { post } = useParams()
+    if(!post) return null
     let back = (e:any) => {
         e.stopPropagation();
         history.goBack();
@@ -30,18 +30,18 @@ export const WatchModal = () => {
                     top: 80,
                     left: 0,
                     right: 0,
-                    minWidth: 640,
-                    maxWidth: 860,
-                    maxHeight: 640,
+                    minWidth: 240,
+                    maxWidth: 480,
+                    maxHeight: 270,
                     overflow: "auto",
-                    width: "90%",
+                    width: "50%",
                     margin: "auto",
                     padding: 15,
                     background: "rgba(255, 255, 255, 1)"
                 }}
                 onClick={(e)=>e.stopPropagation()}
             >
-                <Watch youtubeID={id} tagType={"movie"}/>
+                <Notification post={post}/>
             </div>
         </div>
     )

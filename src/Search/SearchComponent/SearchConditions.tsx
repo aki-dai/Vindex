@@ -14,16 +14,16 @@ export const SearchConditions = () => {
     const searchCount = useSelector((state:any) => state.searchReducer.searchCount)
     return(
         <>
-            <Container>
+            <div>
                 <Typography>
-                {searchWord} での検索結果
+                    {searchWord} での検索結果
                 </Typography>
                 <Typography>
                     {searchCount}件の動画
                 </Typography>
                 
                 <SortSelect />
-            </Container>        
+            </div>
         </>
     )
 }

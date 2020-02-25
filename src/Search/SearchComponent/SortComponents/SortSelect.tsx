@@ -1,8 +1,14 @@
 import React, { useState }  from 'react';
-import {Select, MenuItem, TextField, InputLabel, FormControl, Input, Button} from '@material-ui/core/'
+import {Select, MenuItem, TextField, InputLabel, FormControl, Input, Button, makeStyles} from '@material-ui/core/'
+
+const useStyles = makeStyles(theme => ({
+    select:{
+        width: 135,
+    },
+}))
 
 export const SortSelect = () => {
-    const [sortCondition, setSortCondition] = useState<string>("Latest")
+    const [sortCondition, setSortCondition] = useState<string>("latest")
     const [searchWord, setSearchWord] = useState<boolean>(true)
 
     const SelectChange = (event: React.ChangeEvent<{value: unknown}>) => {
@@ -25,13 +31,14 @@ interface SelectFieldProps{
 
 
 export const SortSelectField :React.FC<SelectFieldProps> = ({SelectChange, selectValue}) => {
+    const classes = useStyles()
     return(
         <>
-            <FormControl>
-                <InputLabel>検索対象</InputLabel>
+            <FormControl className = {classes.select} disabled> 
+                <InputLabel>ソート</InputLabel>
                 <Select onChange={SelectChange} value={selectValue}>
                     <MenuItem value={"latest"}>新着順</MenuItem>
-                    <MenuItem value={"playCount"}>再生数順</MenuItem>
+                    <MenuItem value={"duration"}>動画時間</MenuItem>
                     <MenuItem value={"oldest"}>古い順</MenuItem>
                 </Select>
             </FormControl>

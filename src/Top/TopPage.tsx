@@ -13,8 +13,10 @@ export const Top = () => {
                     <Caption />
                     <SearchBox />
                 </Grid>
+                <Grid item>            
+                    <NewMovies/>
+                </Grid>
             </Grid>
-            <NewMovies/>
         </>
     )
 }

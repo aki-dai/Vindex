@@ -9,6 +9,7 @@ import {WatchModal} from './Watch/WatchModal';
 import {Search} from './Search/SearchPage';
 import {Editor} from './Editor/Editor'
 import {Auth} from './Auth/Auth'
+import { NotificationModal } from './Notification/NotificationModal'
 
 import { Container, Grid, Box } from '@material-ui/core';
 import { MyPage } from './MyPage/MyPage';
@@ -17,7 +18,9 @@ import { MyPage } from './MyPage/MyPage';
 
 const App: React.FC = () => {
   let location = useLocation()
+  console.log({location})
   let background = location.state && location.state.background
+  let notification = location.state && location.state.notification
 
   return (
     <>

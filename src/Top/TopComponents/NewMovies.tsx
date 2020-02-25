@@ -4,7 +4,15 @@ import { SearchEffect } from '../../components/customHooks'
 import Axios from 'axios'
 import { rootUrl } from '../../serverUrl'
 import { ResultIndex, Tag } from '../../Action/actionTypes'
-import { Typography } from '@material-ui/core'
+import { Typography, Grid, makeStyles } from '@material-ui/core'
+
+const useStyles = makeStyles(theme => ({
+    root:{
+        maxWidth: 270*4,
+        justify: "center",
+    },
+}))
+
 
 export const NewMovies = () => {
     const [results, setResults] = useState<ResultIndex[]>([])
@@ -15,13 +23,20 @@ export const NewMovies = () => {
                     setResults(latestMovies.data.payload.results)
             }})
     }, [])
+    const classes = useStyles()
     console.log(results)
     return(
         <>
-            <Typography variant={"h5"} >
-                新着動画
-            </Typography>
-            <SearchContainer props={results} />
+            <Grid container className={classes.root}>
+                <Grid item>
+                    <Typography variant={"h5"} >
+                        新着動画
+                    </Typography>
+                </Grid>
+                <Grid item>
+                    <SearchContainer props={results} />
+                </Grid>
+            </Grid>
         </>
     )
 }

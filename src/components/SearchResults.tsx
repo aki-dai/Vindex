@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardMedia, Typography, Button, Card, CardActions, CardContent, Container, makeStyles, Grid } from '@material-ui/core';
+import { CardMedia, Typography, Button, Card, CardActions, CardContent, Container, makeStyles, Grid, Paper, Box } from '@material-ui/core';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { ResultIndex, Tag } from '../Action/actionTypes'
@@ -8,9 +8,9 @@ import { useSearch } from './customHooks';
 
 const useContainerStyles = makeStyles(theme => ({
     root:{
-        alignItems: "flex-start",
-        justify: "flex-start",
-    }
+        maxWidth: 270*4,
+        justify: "center",
+    },
 }))
 
 interface SearchContainerType {
@@ -22,16 +22,22 @@ export const SearchContainer:React.FC<SearchContainerType> = ({props}) => {
     return(
         <>
             <Grid container className={classes.root}>
-                {props.map((value:ResultIndex, index:number) => <SearchResult {...value} key={index}/>)}
+                        {props.map((value:ResultIndex, index:number) => <SearchResult {...value} key={index}/>)}
+
             </Grid>
         </>
     )
 }
 
 const useCardStyles = makeStyles(theme => ({
-    root:{
+    container:{
+        margin: '0px',
+        justify: 'center',
+        display: 'inline-block',
+    },
+    card:{
         maxWidth: 270,
-        margin: '20 10px',
+        margin: '0px',
         display: 'inline-block',
     }
 }))
@@ -51,13 +57,15 @@ const SearchResult:React.FC<ResultIndex> = (props) => {
 
     return(
         <>
-            <Card className={classes.root}>
-                <div onClick={() => LinkToMovie()}>
-                    <Thumbnail url={thumbUrl} />
-                    <MovieInfo title={props.title} channelName={props.channelName} />
-                </div>
-                <Tags tags={props.tags}/>
-            </Card>
+                <Grid item className={classes.container}>
+                    <Card className={classes.card}>
+                        <div onClick={() => LinkToMovie()}>
+                            <Thumbnail url={thumbUrl} />
+                            <MovieInfo title={props.title} channelName={props.channelName} />
+                        </div>
+                        <Tags tags={props.tags}/>
+                    </Card>
+                </Grid>
         </>
     )
 }

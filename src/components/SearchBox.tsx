@@ -1,9 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import {Select, MenuItem, TextField, InputLabel, FormControl, Input, Button} from '@material-ui/core/'
+import {Select, MenuItem, TextField, InputLabel, FormControl, Input, Button, makeStyles} from '@material-ui/core/'
 import { textAlign } from '@material-ui/system';
 import { useHistory, useLocation } from 'react-router';
 import { queryToWord, queryToScope } from './functions' 
 import { useSearch } from './customHooks'
+
+const useStyles = makeStyles(theme => ({
+    textBox:{
+        display: "inline-block",
+        marginTop: 15,
+        marginLeft: 5,
+    },
+    scope:{
+        width: 135,
+    },
+}))
+
 
 export const SearchBox = () => {
     const location = useLocation()
@@ -46,14 +58,14 @@ interface InputFieldProps{
 }
 
 const SelectField:React.FC<SelectFieldProps> = ({SelectChange, selectValue}) => {
+    const classes = useStyles()
     return(
         <>    
-            <FormControl>
+            <FormControl className = {classes.scope} disabled>
                 <InputLabel>検索対象</InputLabel>
                 <Select onChange={SelectChange} value={selectValue}>
                     <MenuItem value={"Tag"} >タグ</MenuItem>
                     <MenuItem value={"Title"}>タイトル</MenuItem>
-                    <MenuItem value={"Channel"}>チャンネル</MenuItem>
                 </Select>
             </FormControl>
         </>
@@ -67,9 +79,12 @@ interface SelectFieldProps{
 }
 
 const InputField:React.FC<InputFieldProps> = ({TextFieldChange, textValue}) => {
+    const classes = useStyles()
     return(
-        <>    
-            <Input onChange={TextFieldChange} value={textValue} id="Search-TextField" />
+        <>
+            <div className={classes.textBox}>
+                <Input onChange={TextFieldChange} value={textValue} id="Search-TextField" />
+            </div>
         </>
     )
 }
