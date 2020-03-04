@@ -1,6 +1,7 @@
-import {UserActionTypes} from '../Action/actionTypes'
+import {APIStatus, UserActionTypes} from '../Action/actionTypes'
 
 export interface userState{
+    status: APIStatus
     authenticated: boolean
     accessToken: string
     refreshToken: string
@@ -10,9 +11,11 @@ export interface userState{
     provider: string
     image: string
     accessExp: Date | null
+    error: string
 }
 
 const initialState: userState = {
+    status: 'initial',
     authenticated: false,
     accessToken: "",
     refreshToken: "",
@@ -21,7 +24,8 @@ const initialState: userState = {
     nickName: "",
     provider: "",
     image: "",
-    accessExp: null
+    accessExp: null,
+    error: ""
 }
 
 const userReducer = (state = initialState, action:UserActionTypes) => {
@@ -35,20 +39,26 @@ const userReducer = (state = initialState, action:UserActionTypes) => {
                 provider        : action.provider, 
                 userID          : action.userID,
                 accessExp       : action.accessExp,
+                status          : 'waiting'
             }        
         }
-        
+        case "GET_USER_INFO":{
+            return{
+                ...state,
+                status: 'loading'
+            }
+        }
         case "SET_USER_INFO":{
             console.log({action})
             return{
                 ...state,
                 userName: action.userName,                
                 nickName: action.nickName, 
-                image   : action.image, 
+                image   : action.image,
+                status  : 'complete'
             }        
         }
 
-        
         case "UPDATE_ACCESS_TOKEN":{
             return{
                 ...state,

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, TextField, Typography, Icon } from '@material-ui/core';
+import { Button, TextField, Typography, Icon, Grid } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { useLocation, useHistory } from 'react-router';
 import axios from 'axios';
@@ -38,16 +38,20 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
     const tagState:tagState = useSelector(tagSelector)
     const userState:userState = useSelector(userSelector)
     const location = useLocation()
+
+    const isMoviePage = (tagType === "movie") 
+    const isEditPage = (tagType === "editor")
+
     const[TagTextField, setTextField] = useState<string>("")
     const[focusedTag, setFocusedTag] = useState<number>(-1)
     const[errorMessage, setError] = useState<string>("")
-    const[isEditing, setEditing]=useState<boolean>((tagType==="editor"))
+    const[isEditing, setEditing]=useState<boolean>(isEditPage)
     const[isNotificationModal, setNotificationModal] = useState<boolean>(false)
     let tags: Tag[]
     const history = useHistory()
 
-    if(tagType === "movie") tags = tagState.movie.tags
-    else if(tagType === "editor") tags = tagState.editor.tags
+    if(isMoviePage) tags = tagState.movie.tags
+    else if(isEditPage) tags = tagState.editor.tags
     else tags = []
     const userID = userState.userID
     const userName = userState.userName
@@ -86,7 +90,7 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
     }
 
     const postNewMovie = (accessToken:string, payload: tagState["movie"] | tagState["editor"], tagType:tagTypes) => {
-        if(tagType==="editor"){
+        if(isEditPage){
             return axios.post(rootUrl + '/movies/',{
                 access_token: accessToken,
                 youtube_id: youtubeID,
@@ -102,6 +106,7 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
         }
     }
 
+    //要リファクタリング
     const postNewTag = async () => {
         let sendData: tagState["movie"] | tagState["editor"]
         //if(tagType === "movie") sendData = tagState.movie
@@ -138,7 +143,7 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
         }
     }
 
-    const NotificationModal:React.FC = () => {
+    const TagUpdateModal:React.FC = () => {
         const closeModal = (e:any) => {
             setNotificationModal(false)
             e.stopPropagation();
@@ -158,12 +163,12 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
                 <div className="modal"
                     style={{
                         position: "fixed",
-                        top: 80,
+                        top: 350,
                         left: 0,
                         right: 0,
-                        minWidth: 640,
-                        maxWidth: 860,
-                        maxHeight: 640,
+                        minWidth: 300,
+                        maxWidth: 200,
+                        maxHeight: 100,
                         overflow: "auto",
                         width: "90%",
                         margin: "auto",
@@ -172,9 +177,72 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
                     }}
                     onClick={(e)=>e.stopPropagation()}
                 >
-                    <Typography variant={"h5"}>
-                        タグを更新しました
-                    </Typography>
+                    <Grid container justify={"center"}>
+                        
+                        <Typography variant={"body1"}>
+                            タグを更新しました
+                        </Typography>
+                    </Grid>
+                </div>
+            </div>
+        )
+    }
+
+    
+    const MoviePostModal:React.FC = () => {
+        const closeModal = (e:any) => {
+            setNotificationModal(false)
+            e.stopPropagation();
+        }
+
+        const redirectToTop = () => {
+            history.push('/')
+        }
+    
+        return(
+            <div onClick={closeModal}
+                style={{
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    bottom: 0,
+                    right: 0,
+                    background: "rgba(0, 0, 0, 0.3)"
+                }}
+            >
+                <div className="modal"
+                    style={{
+                        position: "fixed",
+                        top: 350,
+                        left: 0,
+                        right: 0,
+                        minWidth: 300,
+                        maxWidth: 200,
+                        maxHeight: 100,
+                        overflow: "auto",
+                        width: "90%",
+                        margin: "auto",
+                        padding: 15,
+                        background: "rgba(255, 255, 255, 1)"
+                    }}
+                    onClick={(e)=>e.stopPropagation()}
+                >
+                    <Grid container justify={"center"}>
+                        <Grid item>
+                            <Typography variant={"body1"}>
+                                動画を登録しました！
+                            </Typography>
+                        </Grid>
+                        <Grid item>
+                            <Button variant="outlined" onClick={redirectToTop}>
+                                トップページに戻る
+                            </Button>
+                            <Button variant="outlined" onClick={closeModal}>
+                                動画を登録する
+                            </Button>
+                        </Grid>
+
+                    </Grid>
                 </div>
             </div>
         )
@@ -208,7 +276,8 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
             )}
                 
             {errorMessage}
-            {isNotificationModal && <NotificationModal />}
+            {(isNotificationModal && isMoviePage) && <TagUpdateModal />}
+            {(isNotificationModal && isEditPage)  && <MoviePostModal />}
         </>
     )
 }

@@ -9,6 +9,7 @@ export const DELETE_EDIT_TAG = 'DELETE_EDIT_TAG'
 export const POST_EDIT_TAG = 'POST_EDIT_TAG'
 
 export const AUTH_USER = 'AUTH_USER'
+export const GET_USER_INFO = 'GET_USER_INFO'
 export const UPDATE_ACCESS_TOKEN = 'UPDATE_ACCESS_TOKEN'
 export const UPDATE_TOKENS = 'UPDATE_TOKENS'
 export const SET_USER_INFO = 'SET_USER_INFO'
@@ -97,6 +98,10 @@ export interface AuthUserAction {
     accessExp: number
 }
 
+export interface GetUserInfoStartAction{
+    type: typeof GET_USER_INFO
+}
+
 export interface SetUserInfoAction{
     type: typeof SET_USER_INFO
     userName: string
@@ -126,6 +131,7 @@ export interface LeaveUserAction {
 }
 
 export type UserActionTypes = AuthUserAction |
+                              GetUserInfoStartAction|
                               SetUserInfoAction |
                               UpdateAccessTokenAction|
                               UpdateTokensAction |

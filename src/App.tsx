@@ -13,6 +13,7 @@ import { NotificationModal } from './Notification/NotificationModal'
 
 import { Container, Grid, Box } from '@material-ui/core';
 import { MyPage } from './MyPage/MyPage';
+import { UserInfoEffect } from './components/customHooks';
 
 //Modal.setAppElement('#root')
 
@@ -24,6 +25,7 @@ const App: React.FC = () => {
 
   return (
     <>
+      <UserInfoEffect />
       <Header />
         <Container maxWidth="lg">
           <Grid container justify="center">

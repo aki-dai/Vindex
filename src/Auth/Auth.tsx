@@ -20,14 +20,12 @@ export const Auth = () =>{
     const userInfo = decodeJwt(userTokens.access_token) 
     if(!userInfo) throw new Error('undefined userID')
 
-
     dispatch(authUser(userTokens.access_token,
                       userTokens.refresh_token,
                       userInfo.uid,
                       userInfo.provider,
                       userInfo.exp))
     
-
 
     return (<Redirect to={ authState.redirectPath} />)
 }

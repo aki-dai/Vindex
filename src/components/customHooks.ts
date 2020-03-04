@@ -1,13 +1,14 @@
 import { useState, useCallback, Dispatch, useEffect, } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Axios from "axios";
-import { setUserInfo } from "../Action/userAction";
+import { getUserInfoStart ,setUserInfo, updateAccessToken} from "../Action/userAction";
 import { fetchMovie } from '../Action/tagAction'
 import { SearchStart, SearchComplete, SearchErrorAction} from '../Action/searchAction'
 import { rootUrl } from '../serverUrl'
 import queryString from 'query-string'
 import { useHistory } from 'react-router'
-import { SearchSubmit } from '../Action/searchAction' 
+import { SearchSubmit } from '../Action/searchAction'
+
 
 export const useSearch = () => {
     const history = useHistory()
@@ -28,7 +29,7 @@ export const useSearch = () => {
 }
 
 
-export const useGetUserInfo = () => {
+/*export const useGetUserInfo = () => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const userState = useSelector((state:any) => state.userReducer)
@@ -36,7 +37,7 @@ export const useGetUserInfo = () => {
     const accessToken = userState.accessToken
 
     const getUserInfo = useCallback(async () => {
-        if(!userState.authenticated) return null
+        //if(userState.authenticated) return null
         setLoading(true)
         try{
             const result = await Axios.get(rootUrl + "/users/",{
@@ -60,6 +61,54 @@ export const useGetUserInfo = () => {
         }
     }, [])
     return [userState, getUserInfo, loading, error]
+}*/
+
+export const UserInfoEffect = () => {
+    const userState = useSelector((state:any) => state.userReducer)
+    const dispatch = useDispatch()
+    const accessToken = userState.accessToken
+    const refreshToken = userState.refreshToken
+    const accessExp = userState.accessExp
+
+    useEffect(()=>{
+        (async ()=>{
+            if (userState.status !=='waiting') return
+            dispatch(getUserInfoStart())
+            console.log()
+            try{
+                const userInfoResult = await Axios.get(rootUrl + "/users/", {
+                    params:{
+                        access_token: accessToken
+                }})                
+                const userName = userInfoResult.data.payload.userName
+                const nickName = userInfoResult.data.payload.nickName
+                const image    = userInfoResult.data.payload.image
+                dispatch(setUserInfo(userName, nickName, image))
+            }catch(error){
+                console.log(error)
+            }
+        }
+    )()},[userState])
+    
+    useEffect(()=>{
+        (async ()=>{
+            if (accessExp >= Date.now()/1000) return
+            dispatch(getUserInfoStart())
+            try{
+                const accessTokenResult = await Axios.put(rootUrl + '/users/',{
+                    refresh_token: refreshToken
+                })
+                if(accessTokenResult.data.status==="failed"){
+                    console.log(accessTokenResult.data)
+                    return null
+                }
+                dispatch(updateAccessToken(accessTokenResult.data.payload.access_token))
+            }catch(error){
+                console.log(error)
+            }
+        }
+    )()},[userState])
+    return null
 }
 
 export const useMovieInfo = () =>{

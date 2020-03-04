@@ -1,4 +1,4 @@
-import {User, AUTH_USER, SET_USER_INFO, UPDATE_TOKENS, UPDATE_ACCESS_TOKEN, SIGN_OUT, LEAVE_USER, UserActionTypes} from './actionTypes'
+import {User, AUTH_USER, SET_USER_INFO, UPDATE_TOKENS, UPDATE_ACCESS_TOKEN, SIGN_OUT, LEAVE_USER, UserActionTypes, GET_USER_INFO} from './actionTypes'
 import { decodeJwt } from '../components/modules'
 /*
 interface UserInfoResponse{
@@ -23,6 +23,12 @@ export function authUser(accessToken:string, refreshToken:string, userID: string
         userID      : userID,
         provider    : provider,
         accessExp   : accessExp,
+    }
+}
+
+export function getUserInfoStart(): UserActionTypes{
+    return {
+        type: GET_USER_INFO
     }
 }
 

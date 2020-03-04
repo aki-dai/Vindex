@@ -1,1 +1,1 @@
-export const rootUrl = 'https://localhost:3000/api/v1'
+export const rootUrl = 'http://localhost:3000/api/v1'
