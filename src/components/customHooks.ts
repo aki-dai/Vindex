@@ -69,6 +69,7 @@ export const UserInfoEffect = () => {
     const accessToken = userState.accessToken
     const refreshToken = userState.refreshToken
     const accessExp = userState.accessExp
+    const isAuthenticated = userState.authenticated
 
     useEffect(()=>{
         (async ()=>{
@@ -88,11 +89,13 @@ export const UserInfoEffect = () => {
                 console.log(error)
             }
         }
-    )()},[userState])
+    )()},[
+        
+    ])
     
     useEffect(()=>{
         (async ()=>{
-            if (accessExp >= Date.now()/1000) return
+            if (userState.status !== 'waiting' || accessExp >= Date.now()/1000 || !isAuthenticated) return null
             dispatch(getUserInfoStart())
             try{
                 const accessTokenResult = await Axios.put(rootUrl + '/users/',{

@@ -57,7 +57,12 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
     const userName = userState.userName
 
     const changeTextField = (e:any) => {
-        setTextField(e.target.value)
+            setTextField(e.target.value)
+    }
+    const onEnter = (e:any) => {
+        if(e.keyCode==13){
+            setNewTag()
+        }
     }
     
     const setNewTag = () => {
@@ -259,7 +264,7 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
             )}
             {isEditing && (
                 <>
-                    <TextField onChange={changeTextField} value={TagTextField} />
+                    <TextField onChange={changeTextField} value={TagTextField} onKeyDown={onEnter} />
                     <Button variant="outlined" onClick={setNewTag}>
                         タグを登録
                     </Button>

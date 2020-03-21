@@ -11,27 +11,41 @@ import {Editor} from './Editor/Editor'
 import {Auth} from './Auth/Auth'
 import { NotificationModal } from './Notification/NotificationModal'
 
-import { Container, Grid, Box } from '@material-ui/core';
+import { Container, Grid, Box, makeStyles, Theme, createStyles } from '@material-ui/core';
 import { MyPage } from './MyPage/MyPage';
 import { UserInfoEffect } from './components/customHooks';
 
 //Modal.setAppElement('#root')
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root:{
+            minWidth: 270,
+            width: '100%',
+            maxWidth: 1080,
+            margin: 'auto',
+        },
+        topItems:{
+            margin: 'auto',
+        }
+    })
+)
+
 
 const App: React.FC = () => {
   let location = useLocation()
   console.log({location})
   let background = location.state && location.state.background
   let notification = location.state && location.state.notification
+  const classes = useStyles()
 
   return (
     <>
       <UserInfoEffect />
       <Header />
         <Container maxWidth="lg">
-          <Grid container justify="center">
-            <Grid item>
+          <Grid container justify="center" className={classes.root}>
+            <Grid item className={classes.topItems}>
               <Box m={10} />
-
               <Switch location={background || location}>
                 <Route exact path="/" component={Top} />
                 <Route path="/watch/:id">

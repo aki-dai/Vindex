@@ -47,7 +47,6 @@ export const Watch:React.FC<WatchPageProps> = ({youtubeID, title, channelName, t
     },[vid])
     let url:string = "https://www.youtube.com/watch?v=" + vid
 
-       console.log({youtubeID, title, channelName, tagType, urlParams, url})
     const config={
         youtube:{
             playerVars:{

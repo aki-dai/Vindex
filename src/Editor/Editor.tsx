@@ -57,7 +57,9 @@ export const Editor = () => {
 }
 
 const ExtractVideoId = (Url:string) => {
-    const urlPos:number = Url.indexOf("watch?v=")
+    let urlPos:number = Url.indexOf("watch?v=")
+    if(urlPos < 0) urlPos = Url.indexOf("outu.be/")
+    if(urlPos < 0) return ""
     const videoId = Url.substr(urlPos+8, 11)
     return videoId
 }

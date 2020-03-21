@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: Theme)=>
             marginRight: 20,
         },
         twitterLogin:{
-            marginRight: theme.spacing(2),
+            marginLeft: theme.spacing(2),
             backgroundColor: "#1DA1F2",
 
             color: "#ffffff"
