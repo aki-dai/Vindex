@@ -4,6 +4,7 @@ export const DELETE_TAG = 'DELETE_TAG'
 export const ADD_TAG    = 'ADD_TAG'
 
 export const FETCH_MOVIE = 'FETCH_MOVIE'
+export const LOAD_MOVIE_INFO = 'LOAD_MOVIE_INFO'
 export const ADD_EDIT_TAG = 'ADD_EDIT_TAG'
 export const DELETE_EDIT_TAG = 'DELETE_EDIT_TAG'
 export const POST_EDIT_TAG = 'POST_EDIT_TAG'
@@ -83,11 +84,19 @@ export interface FetchMovieAction {
     url         : string,
 }
 
+export interface LoadMovieAction {
+    type        : typeof LOAD_MOVIE_INFO,
+    youtubeID   : string,
+    title       : string,
+    channel_name : string,
+}
+
 export type TagActionTypes = LoadTagAction   |
                              UpdateTagAction |
                              DeleteTagAction |
                              AddTagAction   |
-                             FetchMovieAction
+                             FetchMovieAction|
+                             LoadMovieAction
 
 export interface AuthUserAction {
     type: typeof AUTH_USER
@@ -140,7 +149,7 @@ export type UserActionTypes = AuthUserAction |
 
 export interface ResultIndex {
     youtube_id: string
-    channelName: string
+    channel_name: string
     title: string
     thumbnail: string
     tags: Tag[]

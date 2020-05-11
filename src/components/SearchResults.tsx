@@ -3,14 +3,14 @@ import { CardMedia, Typography, Button, Card, CardActions, CardContent, Containe
 import { useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { ResultIndex, Tag } from '../Action/actionTypes'
-import { loadTag } from '../Action/tagAction'
+import { loadTag, loadMovieInfo } from '../Action/tagAction'
 import { useSearch } from './customHooks';
 
 const useContainerStyles = makeStyles(theme => ({
     root:{
         maxWidth: 270*4,
         justify: "center",
-    },
+    }
 }))
 
 interface SearchContainerType {
@@ -39,6 +39,9 @@ const useCardStyles = makeStyles(theme => ({
         maxWidth: 270,
         margin: '0px',
         display: 'inline-block',
+    },
+    link:{
+        cursor: "pointer",
     }
 }))
 
@@ -51,7 +54,8 @@ const SearchResult:React.FC<ResultIndex> = (props) => {
     const dispatch =  useDispatch()
 
     const LinkToMovie = () => {
-        dispatch(loadTag(props.youtube_id,props.tags,'movie'))
+        dispatch(loadTag(props.youtube_id, props.tags,'movie'))
+        dispatch(loadMovieInfo(props.youtube_id, props.channel_name, props.title))
         history.push('/watch/'+props.youtube_id, { background: location })
     }
 
@@ -59,9 +63,9 @@ const SearchResult:React.FC<ResultIndex> = (props) => {
         <>
                 <Grid item className={classes.container}>
                     <Card className={classes.card}>
-                        <div onClick={() => LinkToMovie()}>
+                        <div onClick={() => LinkToMovie()} className={classes.link}>
                             <Thumbnail url={thumbUrl} />
-                            <MovieInfo title={props.title} channelName={props.channelName} />
+                            <MovieInfo title={props.title} channelName={props.channel_name} />
                         </div>
                         <Tags tags={props.tags}/>
                     </Card>
@@ -108,13 +112,24 @@ interface TagsProp{
     tags: Tag[]
 }
 
+
+const useTagStyles = makeStyles(theme => ({
+    tag:{
+        backgroundColor: '#ffffff',
+        margin: '2px',
+        display: 'inline-block',
+    },
+}))
+
+
 const Tags:React.FC<TagsProp> = ({tags}) => {
     const setSearch = useSearch()
+    const classes = useTagStyles()
     return(
         <>  
                 {tags.map((tag, index) => {
                     return(
-                        <Button onClick={() => setSearch(tag.value ,"Tag")} key={index}>
+                        <Button variant="contained" className={classes.tag} onClick={() => setSearch(tag.value ,"Tag")} key={index}>
                             {tag.value}
                         </Button>
                     )

@@ -30,8 +30,10 @@ export const Watch:React.FC<WatchPageProps> = ({youtubeID, title, channelName, t
     if(urlParams.id) vid = urlParams.id
     else if(youtubeID) vid = youtubeID
     else vid = ""
-
-    console.log({tagState,  })
+    let movieTitle = tagState.movie.title
+    let channelTitle = tagState.movie.channelName
+    
+    console.log({tagState})
     useEffect(() => {
         if(tagType === "movie" && tagState.movie.youtubeID !== vid){
             Axios.get( 
@@ -55,6 +57,8 @@ export const Watch:React.FC<WatchPageProps> = ({youtubeID, title, channelName, t
             }
         }
     }
+    
+    console.log({movieTitle, channelTitle})
 
     return(
         <>
@@ -71,10 +75,10 @@ export const Watch:React.FC<WatchPageProps> = ({youtubeID, title, channelName, t
 
                         <Grid item>
                             <Typography variant="body1">
-                                {title}
+                                {movieTitle}
                             </Typography>
                             <Typography variant="body1">
-                                {channelName}
+                                {channelTitle}
                             </Typography>
                         </Grid>
                     </Grid>

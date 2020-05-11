@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import axios from 'axios'
-import { AppBar, Typography, Toolbar, Button, Grid, Container, makeStyles, Theme, createStyles } from '@material-ui/core';
+import { AppBar, Typography, Toolbar, Button, Grid, makeStyles, Theme, createStyles } from '@material-ui/core';
 import { Link } from 'react-router-dom'
 import { useHistory, useLocation } from 'react-router'
 import { useSelector, useDispatch } from 'react-redux';
 //import { UseGetUserInfo } from './customHooks'
 import { refreshAccessToken } from '../components/modules'
-import {updateAccessToken} from '../Action/userAction'
 import { useErrorHandle } from './errorHandle';
 import {rootUrl} from '../serverUrl'
 import {setRedirectUrl} from '../Action/authAction'

@@ -1,8 +1,4 @@
-import { Tag, TagActionTypes, LoadTagAction,
-    UpdateTagAction,
-    DeleteTagAction,
-    AddTagAction,
-    FetchMovieAction } from '../Action/actionTypes'
+import { Tag, TagActionTypes } from '../Action/actionTypes'
 
 export interface tagState{
     editor:{
@@ -14,6 +10,8 @@ export interface tagState{
     }
     movie:{
         youtubeID :string
+        title       :string
+        channelName :string
         updatedAt :string
         createdAt :string
         tags      :Tag[]
@@ -30,6 +28,8 @@ const initialState:tagState = {
     },
     movie:{
         youtubeID   : "",
+        title       : "",
+        channelName : "",
         updatedAt   : "",
         createdAt   : "",
         tags        : []
@@ -49,6 +49,17 @@ const tagReducer = (state = initialState, action:TagActionTypes) => {
                     tags        : []
                 }
             }        
+        }
+
+        case 'LOAD_MOVIE_INFO':{
+            return{
+                ...state,
+                movie:{
+                    ...state.movie,
+                    title       : action.title,
+                    channelName : action.channel_name,
+                }
+            }
         }
 
         case "LOAD_TAG":{

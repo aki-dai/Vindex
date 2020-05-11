@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, TextField, Typography, Icon, Grid } from '@material-ui/core';
+import { Button, TextField, Typography, Icon, Grid, makeStyles } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { useLocation, useHistory } from 'react-router';
 import axios from 'axios';
@@ -13,6 +13,7 @@ import { updateAccessToken, signOut } from '../../Action/userAction';
 import { refreshAccessToken } from '../../components/modules'
 import {rootUrl} from '../../serverUrl'
 import {useSearch} from '../../components/customHooks'
+import { ThemeConsumer } from 'styled-components';
 
 const tagSelector = (state :any) => {return state.tagReducer}
 const userSelector = (state :any) => {return state.userReducer}
@@ -64,6 +65,7 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
             setNewTag()
         }
     }
+    
     
     const setNewTag = () => {
         setError("")
@@ -243,7 +245,7 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
                                 トップページに戻る
                             </Button>
                             <Button variant="outlined" onClick={closeModal}>
-                                動画を登録する
+                                引き続き動画を登録する
                             </Button>
                         </Grid>
 
@@ -294,7 +296,15 @@ interface TagButtonProps {
     deleteTag: () => void
 }
 
+const tagStyles = makeStyles(theme => ({
+    tagButton:{
+        backgroundColor: '#ffffff',
+        display: 'inline-block',
+    },
+}))
+
 const TagButton:React.FC<TagButtonProps> = ({props, isToggled, onClick, deleteTag}) => {
+    const classes = tagStyles() 
     const DeleteButton = () => {
         return(
             <>
@@ -323,7 +333,7 @@ const TagButton:React.FC<TagButtonProps> = ({props, isToggled, onClick, deleteTa
     return(
         <>
             <div style={{margin: 6}} >
-                <Button variant="contained" onClick={onClick}>
+                <Button className={classes.tagButton} variant="contained" onClick={onClick}>
                     {props}
                 </Button>
                 {isToggled && <DeleteButton/>}

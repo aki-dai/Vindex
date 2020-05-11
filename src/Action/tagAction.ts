@@ -1,4 +1,4 @@
-import {Tag, tagTypes, FETCH_MOVIE, LOAD_TAG, UPDATE_TAG, DELETE_TAG, ADD_TAG, TagActionTypes} from './actionTypes'
+import {Tag, tagTypes, FETCH_MOVIE, LOAD_TAG, UPDATE_TAG, DELETE_TAG, ADD_TAG, TagActionTypes, LOAD_MOVIE_INFO} from './actionTypes'
 
 
 
@@ -9,6 +9,15 @@ export function fetchMovie(youtubeID:string, title: string, channelName: string,
         title       : title,
         channelName : channelName,
         url         : url
+    }
+}
+
+export function loadMovieInfo(youtubeID:string, channelName: string, title: string): TagActionTypes{
+    return {
+        type        : LOAD_MOVIE_INFO,
+        youtubeID   : youtubeID,
+        title       : title,       
+        channel_name : channelName,
     }
 }
 
