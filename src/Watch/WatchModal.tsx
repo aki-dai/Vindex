@@ -12,7 +12,6 @@ export const WatchModal = () => {
         history.goBack();
     };
 
-
     return(
         <div onClick={back}
             style={{
@@ -30,10 +29,10 @@ export const WatchModal = () => {
                     top: 80,
                     left: 0,
                     right: 0,
-                    minWidth: 640,
-                    maxWidth: 860,
-                    maxHeight: 640,
-                    overflow: "auto",
+                    minWidth: 0,
+                    maxWidth: 860,   
+                    height: "50vh",
+                    overflow: "scroll",
                     width: "90%",
                     margin: "auto",
                     padding: 15,

@@ -97,10 +97,10 @@ const MovieInfo:React.FC<MovieInfoProps> = ({title, channelName}) => {
     return(
         <>
             <CardContent>
-                <Typography>
+                <Typography variant="body1">
                     {title}
                 </Typography>
-                <Typography>
+                <Typography variant="body2">
                     {channelName}
                 </Typography>          
             </CardContent>

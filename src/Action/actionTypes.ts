@@ -153,6 +153,7 @@ export interface ResultIndex {
     title: string
     thumbnail: string
     tags: Tag[]
+    clicked: boolean;
 }
 
 export type sortType = 'latest' | 'oldest' | 'new_movie' | 'previous_movie'

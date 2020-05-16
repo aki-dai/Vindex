@@ -39,9 +39,11 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
     const tagState:tagState = useSelector(tagSelector)
     const userState:userState = useSelector(userSelector)
     const location = useLocation()
+    const setSearch = useSearch()
 
     const isMoviePage = (tagType === "movie") 
     const isEditPage = (tagType === "editor")
+    const isAuthenticated = userState.authenticated
 
     const[TagTextField, setTextField] = useState<string>("")
     const[focusedTag, setFocusedTag] = useState<number>(-1)
@@ -65,8 +67,7 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
             setNewTag()
         }
     }
-    
-    
+
     const setNewTag = () => {
         setError("")
         const replacedText = TagTextField.replace(/^\s+/, "").replace(/\s+$/, "").replace(/\s+/g, "_")
@@ -87,8 +88,9 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
         setTextField("")
     }
 
-    const setToggleTagMenu = (index:number) => {
-        setFocusedTag(index)
+    const setToggleTagMenu = (index:number, query:string) => {
+        if(isEditing) setFocusedTag(index)
+        else setSearch(query, "Tag")
     }
 
     const deleteTagAction = () => {
@@ -259,24 +261,29 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
         <>
             {tags.map((value, index) => 
                 <TagButton props={value.value} 
-                           key={index} 
-                           isToggled={(index===focusedTag)} 
-                           onClick={() => setToggleTagMenu(index)}
+                           key={index}
+                           isAuthenticated={isAuthenticated}
+                           isToggled={(index===focusedTag)}
+                           isEditing = {isEditing}
+                           onClick={() => setToggleTagMenu(index, value.value)}
                            deleteTag={() => deleteTagAction()}/>
             )}
-            {isEditing && (
+            {(isEditing  && isAuthenticated) && (
                 <>
                     <TextField onChange={changeTextField} value={TagTextField} onKeyDown={onEnter} />
                     <Button variant="outlined" onClick={setNewTag}>
-                        タグを登録
+                        タグを追加
                     </Button>
                     
                     <Button variant="outlined" onClick={postNewTag}>
-                        保存
+                        タグを保存
+                    </Button>
+                    <Button variant="outlined" onClick={()=>setEditing(false)}>
+                        編集を終了
                     </Button>
                 </>
             )}
-            {!isEditing &&(
+            {(!isEditing && isAuthenticated) &&(
                 <Button variant="outlined" onClick={()=>setEditing(true)}>
                     タグを追加する
                 </Button>
@@ -292,6 +299,8 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
 interface TagButtonProps {
     props: string
     isToggled: boolean
+    isEditing: boolean
+    isAuthenticated: boolean
     onClick: () => void
     deleteTag: () => void
 }
@@ -303,12 +312,12 @@ const tagStyles = makeStyles(theme => ({
     },
 }))
 
-const TagButton:React.FC<TagButtonProps> = ({props, isToggled, onClick, deleteTag}) => {
+const TagButton:React.FC<TagButtonProps> = ({props, isToggled, isEditing, isAuthenticated, onClick, deleteTag}) => {
     const classes = tagStyles() 
     const DeleteButton = () => {
         return(
             <>
-                <CancelIcon onClick={deleteTag}/>
+                {isAuthenticated && <CancelIcon onClick={deleteTag}/>}
             </>
         )
     }
@@ -336,9 +345,9 @@ const TagButton:React.FC<TagButtonProps> = ({props, isToggled, onClick, deleteTa
                 <Button className={classes.tagButton} variant="contained" onClick={onClick}>
                     {props}
                 </Button>
-                {isToggled && <DeleteButton/>}
+                {(isToggled && isEditing) && <DeleteButton/>}
             </div>
-            {isToggled && <TagMenu />}
+            {(isToggled && isEditing)&& <TagMenu />}
         </>
     )
 }

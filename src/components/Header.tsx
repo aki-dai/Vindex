@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios'
-import { AppBar, Typography, Toolbar, Button, Grid, makeStyles, Theme, createStyles } from '@material-ui/core';
+import { AppBar, Typography, Toolbar, Button, Grid, makeStyles, Theme, createStyles, Icon } from '@material-ui/core';
 import { Link } from 'react-router-dom'
 import { useHistory, useLocation } from 'react-router'
 import { useSelector, useDispatch } from 'react-redux';
@@ -9,6 +9,7 @@ import { refreshAccessToken } from '../components/modules'
 import { useErrorHandle } from './errorHandle';
 import {rootUrl} from '../serverUrl'
 import {setRedirectUrl} from '../Action/authAction'
+import MenuIcon from '@material-ui/icons/Menu';
 import TwitterIcon from '../Twitter_Logo_WhiteOnBlue.png'
 
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
@@ -17,17 +18,21 @@ const useStyles = makeStyles((theme: Theme)=>
     createStyles({
         root: {
             flexGrow: 1,
+            backgroundColor: "#e0e0e0"
         },
         toolbar:{
             margin: "auto",
             maxWidth: 1080,
-            width: "100%"
+            width: "100%",
+        },
+        headerLink:{
+            margin: 'auto 0',
+            marginLeft: 10,
         },
         resistration:{
-            margin: 'auto 0'
+            
         },
         mypage:{
-            margin: 'auto  0'
         },
         userName:{
             margin: 'auto',
@@ -37,7 +42,6 @@ const useStyles = makeStyles((theme: Theme)=>
         twitterLogin:{
             marginLeft: theme.spacing(2),
             backgroundColor: "#1DA1F2",
-
             color: "#ffffff"
         },
         twitterIcon:{
@@ -51,6 +55,10 @@ const useStyles = makeStyles((theme: Theme)=>
             marginRight: 20,
             borderRadius: '50%'
         },
+        logo:{
+            cursor: "pointer",
+            margin:'auto 0', 
+        }
     })
 )
 
@@ -114,19 +122,32 @@ const Header = () => {
             <AppBar className={classes.root}>
                 <Toolbar>
                     <Grid container className={classes.toolbar}>
-                            <Typography variant="h6" onClick={linkToTop}>
+                        {/*
+                            <Typography variant="h6" onClick={linkToTop} className={classes.logo}>
                                     Vindex
                             </Typography>
+                        */}
+                            <a onClick={linkToTop} className={classes.logo}>
+                                <img src='./Vindex_logo.png' alt='Vindex' width={100} height={100/720*170}   />
+                            </a>
+                            
+                            <Button href="/about" className={classes.headerLink}>
+                                このサイトについて
+                            </Button>
+
+                            <Button href="/update" className={classes.headerLink}>
+                                更新情報
+                            </Button>
 
                             
                             {userState.authenticated && (
                             <>
                             
-                                <Button href="/registration" className={classes.resistration}>
+                                <Button href="/registration" className={classes.resistration && classes.headerLink}>
                                     動画登録
                                 </Button>
 
-                                <Button href="/mypage" className={classes.mypage}>
+                                <Button href="/mypage" className={classes.mypage && classes.headerLink}>
                                     マイページ
                                 </Button>
                                 
@@ -142,6 +163,7 @@ const Header = () => {
                                     Twitterでログイン
                                 </Button>
                             )}
+
                     </Grid>
                 </Toolbar>
             </AppBar>
@@ -150,3 +172,4 @@ const Header = () => {
 }
 
 export default Header
+

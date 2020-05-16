@@ -30,8 +30,9 @@ export const Watch:React.FC<WatchPageProps> = ({youtubeID, title, channelName, t
     if(urlParams.id) vid = urlParams.id
     else if(youtubeID) vid = youtubeID
     else vid = ""
-    let movieTitle = tagState.movie.title
-    let channelTitle = tagState.movie.channelName
+    let width = window.innerWidth
+    let movieTitle = (tagType === "movie") ? tagState.movie.title : tagState.editor.title 
+    let channelTitle = (tagType === "movie") ? tagState.movie.channelName : tagState.editor.channelName
     
     console.log({tagState})
     useEffect(() => {
@@ -69,7 +70,8 @@ export const Watch:React.FC<WatchPageProps> = ({youtubeID, title, channelName, t
                             <ReactPlayer 
                                 url={url}
                                 config={config}
-                                width={640}
+                                width={Math.min(width*0.8, 640)}
+                                height={Math.min(width*0.8*9/16, 360)}
                                 />
                         </Grid>
 
@@ -77,7 +79,7 @@ export const Watch:React.FC<WatchPageProps> = ({youtubeID, title, channelName, t
                             <Typography variant="body1">
                                 {movieTitle}
                             </Typography>
-                            <Typography variant="body1">
+                            <Typography variant="body2" >
                                 {channelTitle}
                             </Typography>
                         </Grid>

@@ -2,18 +2,30 @@ import React from 'react';
 import { Caption } from './TopComponents/Caption'
 import { SearchBox } from '../components/SearchBox'
 import Header from '../components/Header'
-import { Container, Grid, Box } from '@material-ui/core';
+import { Container, Grid, Box, makeStyles, Theme, createStyles } from '@material-ui/core';
 import { NewMovies } from './TopComponents/NewMovies';
 
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        top:{
+        },
+        content:{
+            marginTop: 40,
+        }
+    })
+)
+
 export const Top = () => {
+    const classes = useStyles()
     return(
         <>
-            <Grid container justify={"center"}>
-                <Grid item>
-                    <Caption />
-                    <SearchBox />
+            <Grid container justify={"center"} >
+                <Grid item className={classes.top}>
+                        <Caption />
+                        <SearchBox />
                 </Grid>
-                <Grid item>            
+
+                <Grid item className={classes.content}>            
                     <NewMovies/>
                 </Grid>
             </Grid>
