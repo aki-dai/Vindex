@@ -259,6 +259,7 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
 
     return(
         <>
+            <div style={{marginLeft: 15}}>
             {tags.map((value, index) => 
                 <TagButton props={value.value} 
                            key={index}
@@ -292,6 +293,7 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
             {errorMessage}
             {(isNotificationModal && isMoviePage) && <TagUpdateModal />}
             {(isNotificationModal && isEditPage)  && <MoviePostModal />}
+            </div>
         </>
     )
 }
@@ -333,8 +335,7 @@ const TagButton:React.FC<TagButtonProps> = ({props, isToggled, isEditing, isAuth
         if(location.pathname==="/registration") return null
         else return(
             <div style={MenuStyle}>
-                <Typography variant={"body1"} onClick={() => setSearch(props ,"Tag")}>このタグで検索</Typography>
-                {/*<Typography variant={"body1"}>このタグをミュート</Typography>*/}
+                <span onClick={() => setSearch(props ,"Tag")} style={{cursor: "pointer"}}>このタグで検索</span>
             </div>
         )
     }
@@ -347,7 +348,7 @@ const TagButton:React.FC<TagButtonProps> = ({props, isToggled, isEditing, isAuth
                 </Button>
                 {(isToggled && isEditing) && <DeleteButton/>}
             </div>
-            {(isToggled && isEditing)&& <TagMenu />}
+            {/*(isToggled && isEditing)&& <TagMenu />*/}
         </>
     )
 }

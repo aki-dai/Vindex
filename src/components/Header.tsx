@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import axios from 'axios'
-import { AppBar, Typography, Toolbar, Button, Grid, makeStyles, Theme, createStyles, Icon } from '@material-ui/core';
+import { AppBar, Typography, Toolbar, Button, Grid, makeStyles, Theme, createStyles, IconButton, Hidden, ListItem, ListItemText, Drawer, SwipeableDrawer } from '@material-ui/core';
 import { Link } from 'react-router-dom'
 import { useHistory, useLocation } from 'react-router'
 import { useSelector, useDispatch } from 'react-redux';
@@ -39,10 +39,18 @@ const useStyles = makeStyles((theme: Theme)=>
             float: 'right',
             marginRight: 20,
         },
+        userNameDrawer:{
+            margin: 'auto',
+            float: 'left',
+            marginTop: 5,
+            marginLeft: 20,
+            marginRight: 20,
+        },
         twitterLogin:{
             marginLeft: theme.spacing(2),
             backgroundColor: "#1DA1F2",
-            color: "#ffffff"
+            color: "#ffffff",
+            width: 200
         },
         twitterIcon:{
             marginRight: theme.spacing(1),
@@ -58,7 +66,10 @@ const useStyles = makeStyles((theme: Theme)=>
         logo:{
             cursor: "pointer",
             margin:'auto 0', 
-        }
+        },
+        list:{
+            width:200,
+        }, 
     })
 )
 
@@ -82,10 +93,15 @@ const Header = () => {
     console.log({history, location})
     const userState = useSelector((state:any)=> state.userReducer)
     //const [userState, getUserInfo, loading, error] = useGetUserInfo()
-    const dispatch=useDispatch()
+    const dispatch = useDispatch()
     const [errorHandle] = useErrorHandle()
+    const [drawerState, setDrawerState] = useState<boolean>(false)
+    let iOS = false
 
-    console.log(userState)
+    if (typeof window !== "undefined"){
+        iOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+    }
+
     /*
     if(userState.accessExp < Date.now()/1000){
             newAccessToken(userState.refreshToken).then(resAccessToken => {
@@ -105,6 +121,10 @@ const Header = () => {
     }, [userState.accessToken])
     */
 
+    console.log(drawerState)
+    const toggleDrawer = (open: boolean) => (event: React.MouseEvent | React.KeyboardEvent ) => {
+        setDrawerState(open);
+    } 
     const classes = useStyles()
 
     const twitterLogin = () => {
@@ -115,6 +135,41 @@ const Header = () => {
 
     const linkToTop = () => {
         history.push('/'+location.search)
+    }
+    
+    const DrawerMenu = () => {
+        return(
+            <div onClick={toggleDrawer(false)} role="presentation" className={classes.list}>
+                <ListItem button component="a" href="/about">
+                    <ListItemText primary={"このサイトについて"}/>
+                </ListItem>
+                <ListItem button component="a" href="/update">
+                    <ListItemText primary={"更新情報"}/>
+                </ListItem>
+                {
+                    userState.authenticated && (
+                        <>
+                            <ListItem button component="a" href="/registration">
+                                <ListItemText primary={"動画登録"}/>
+                            </ListItem>
+                            <ListItem button component="a" href="/mypage">
+                                <ListItemText primary={"マイページ"}/>
+                            </ListItem>
+                            <Typography variant={'body1'} className={classes.userNameDrawer}>
+                                        {userState.userName}
+                            </Typography>
+                            <img src={userState.image} className={classes.userIcon}/>
+                        </>
+                    )
+                }                            
+                {!userState.authenticated && (
+                    <ListItem button onClick={twitterLogin} className={classes.twitterLogin}>
+                        <img src={TwitterIcon} width={25} className={classes.twitterIcon}/>
+                        Twitterでログイン
+                    </ListItem>
+                )}
+            </div>
+        )
     }
 
     return(
@@ -127,10 +182,24 @@ const Header = () => {
                                     Vindex
                             </Typography>
                         */}
-                            <a onClick={linkToTop} className={classes.logo}>
-                                <img src='./Vindex_logo.png' alt='Vindex' width={100} height={100/720*170}   />
-                            </a>
-                            
+                        <Hidden mdUp>
+                            <IconButton onClick={toggleDrawer(true)}>
+                                <MenuIcon />
+                            </IconButton>
+                            <SwipeableDrawer disableBackdropTransition={!iOS} 
+                                            disableDiscovery={iOS} 
+                                            anchor={"left"} 
+                                            open={drawerState} 
+                                            onClose={toggleDrawer(false)}
+                                            onOpen={toggleDrawer(true)}>
+                                {DrawerMenu()}
+                            </SwipeableDrawer>
+                        </Hidden>
+
+                        <a onClick={linkToTop} className={classes.logo}>
+                            <img src='./Vindex_logo.png' alt='Vindex' width={100} height={100/720*170}   />
+                        </a>
+                        <Hidden smDown>                        
                             <Button href="/about" className={classes.headerLink}>
                                 このサイトについて
                             </Button>
@@ -164,6 +233,8 @@ const Header = () => {
                                 </Button>
                             )}
 
+                        </Hidden>
+
                     </Grid>
                 </Toolbar>
             </AppBar>
@@ -172,4 +243,3 @@ const Header = () => {
 }
 
 export default Header
-

@@ -22,7 +22,7 @@ const Logo = () => {
                 Vindex
             </Typography>
         */}
-        <img src='./Vindex_logo.png' alt='Vindex' width={300} style={{margin:"0 auto",marginBottom: 20}}/>
+        <img src='./Vindex_logo.png' alt='Vindex' width={250} style={{margin:"0 auto",marginBottom: 20}}/>
         </>
     )
 }
