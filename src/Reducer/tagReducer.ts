@@ -7,6 +7,7 @@ export interface tagState{
         channelName :string
         url         :string
         tags        :Tag[]
+        isRegistered:boolean
     }
     movie:{
         youtubeID :string
@@ -24,7 +25,8 @@ const initialState:tagState = {
         title       :"",
         channelName :"",
         url         :"",
-        tags        :[]
+        tags        :[],
+        isRegistered:false,
     },
     movie:{
         youtubeID   : "",
@@ -46,7 +48,8 @@ const tagReducer = (state = initialState, action:TagActionTypes) => {
                     title       : action.title,
                     channelName : action.channelName,
                     url         : action.url,
-                    tags        : []
+                    tags        : action.tags,
+                    isRegistered: action.isRegistered,
                 }
             }        
         }
@@ -67,10 +70,19 @@ const tagReducer = (state = initialState, action:TagActionTypes) => {
                 return{
                     ...state,
                     movie:{
+                        ...state.movie,
                         youtubeID: action.youtubeID,
                         tags     : action.loadTags,
-                        updatedAt   : "",
-                        createdAt   : "",
+                    }
+                }
+            }
+            if(action.tagType === "editor"){
+                return{
+                    ...state,
+                    editor:{
+                        ...state.editor,
+                        youtubeID: action.youtubeID,
+                        tags     : action.loadTags,
                     }
                 }
             }
@@ -98,6 +110,7 @@ const tagReducer = (state = initialState, action:TagActionTypes) => {
                 return{
                     ...state,
                     movie:{
+                        ...state.movie,
                         tags: state.movie.tags.slice(0, action.numDeleteTag)
                                          .concat(state.movie.tags.slice(action.numDeleteTag + 1, state.movie.tags.length))
                     }
@@ -108,6 +121,7 @@ const tagReducer = (state = initialState, action:TagActionTypes) => {
                 return{
                     ...state,
                     editor:{
+                        ...state.editor,
                         tags: state.editor.tags.slice(0, action.numDeleteTag)
                                          .concat(state.editor.tags.slice(action.numDeleteTag + 1, state.editor.tags.length))
                     }

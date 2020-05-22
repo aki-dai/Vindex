@@ -143,7 +143,15 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
                 case "002":// refresh token expired
                     dispatch(signOut())       
                 break
-                case "101"://unresisted movie
+                case "011":// API TimeOut
+                    setError("更新に失敗しました。\n時間をおいて再度お試しください。")
+                    console.log(postResponce.data.message)
+                break
+                case "021":// API TimeOut
+                    setError("更新に失敗しました。\n時間をおいて再度お試しください。")
+                console.log(postResponce.data.message)
+            break
+                case "101"://unregistered movie
                     console.log(postResponce.data.message)
                 break
             }
@@ -259,7 +267,7 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
 
     return(
         <>
-            <div style={{marginLeft: 15}}>
+            <div style={{marginLeft: 20}}>
             {tags.map((value, index) => 
                 <TagButton props={value.value} 
                            key={index}
@@ -277,11 +285,13 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
                     </Button>
                     
                     <Button variant="outlined" onClick={postNewTag}>
-                        タグを保存
+                        {(isMoviePage) ? "タグを保存" : "動画を登録" }
                     </Button>
-                    <Button variant="outlined" onClick={()=>setEditing(false)}>
-                        編集を終了
-                    </Button>
+                    {(isMoviePage) && (
+                        <Button variant="outlined" onClick={()=>setEditing(false)}>
+                            編集を終了
+                        </Button>
+                    )}
                 </>
             )}
             {(!isEditing && isAuthenticated) &&(

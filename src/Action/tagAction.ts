@@ -2,13 +2,16 @@ import {Tag, tagTypes, FETCH_MOVIE, LOAD_TAG, UPDATE_TAG, DELETE_TAG, ADD_TAG, T
 
 
 
-export function fetchMovie(youtubeID:string, title: string, channelName: string, url: string): TagActionTypes{
+export function fetchMovie(youtubeID:string, title: string, channelName: string, url: string, tags:Tag[], state: "registered" | "unregistered"): TagActionTypes{
+    const isRegistered = (state === "registered")
     return {
         type        : FETCH_MOVIE,
         youtubeID   : youtubeID,
         title       : title,
         channelName : channelName,
-        url         : url
+        url         : url,
+        tags        : tags,
+        isRegistered: isRegistered,
     }
 }
 

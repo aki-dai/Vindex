@@ -82,6 +82,8 @@ export interface FetchMovieAction {
     title       : string,
     channelName : string,
     url         : string,
+    tags        : Tag[],
+    isRegistered: boolean,
 }
 
 export interface LoadMovieAction {

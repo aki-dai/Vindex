@@ -122,22 +122,34 @@ export const useMovieInfo = () =>{
     const dispatch = useDispatch()
 
     const getMovieInfo = useCallback(async (youtubeID: string, youtubeUrl :string) => {
-        if(!userState.authenticated || !youtubeID) return null
+        if(!userState.authenticated || !youtubeID || (youtubeUrl == "" )) return null
         const fetchURL: string = rootUrl + "/movie_fetch/"+youtubeID
         setLoading(true)
 
         try{
             const result = await Axios.get(fetchURL)
             setLoading(false)
-            if(result.data.status = "success"){
-                console.log({result})
-                dispatch(fetchMovie(youtubeID, result.data.payload.title, result.data.payload.channelName, youtubeUrl))
+            console.log({result})
+            if(result.data.status == "success"){
+                dispatch(fetchMovie(youtubeID, 
+                    result.data.payload.title, 
+                    result.data.payload.channelName, 
+                    youtubeUrl, 
+                    result.data.payload.tag, 
+                    result.data.payload.state))
+            }else{
+                if(result.data.error_code === "021"){            
+                    setError("限定公開動画は登録できません")
+                }
+                if(result.data.error_code === "011"){            
+                    setError("動画の読み込みに失敗しました")
+                }
             }
         }catch(error){
             setLoading(false)
-            const {status, statusText} = error.response
-            console.log(status, statusText)
-            setError(statusText)
+            //const {status, statusText} = error.response
+            //console.log(status, statusText)
+            //setError(statusText)
         }
     }, [loading, error, userState])
     return [movieState, getMovieInfo, loading, error]

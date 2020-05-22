@@ -22,13 +22,12 @@ export const Editor = () => {
     const [videoId, setVideoId] = useState<string>(tagState.editor.youtubeID)
     const [YouTubeUrl, setYouTubeUrl] = useState<string>(tagState.editor.url)
 
-
     useEffect(() => {
         getMovieInfo(videoId, YouTubeUrl)
     }, [videoId])
 
 
-    const changeYouTubeUrl = (e:any) => {
+    const changeYouTubeUrl = (e: any) => {
         setYouTubeUrl(e.target.value)
     }
 
@@ -44,6 +43,13 @@ export const Editor = () => {
                     loadYouTubeUrl={loadYouTubeUrl} 
                     YouTubeUrl={YouTubeUrl}
                 />
+                {(tagState.editor.isRegistered) && (
+                    <> 
+                        <span style={{color: "#d60"}}>
+                            この動画は登録済みです
+                        </span>
+                    </>
+                )}
                 <Watch youtubeID={videoId} title={title} channelName={channelName} tagType={"editor"}/>
             </>
         )
@@ -73,7 +79,7 @@ interface YouTubeUrlInputProps{
 const YouTubeUrlInput:React.FC<YouTubeUrlInputProps> = ({changeYouTubeUrl, loadYouTubeUrl, YouTubeUrl}) => {
     return(
         <>
-            <TextField onChange={changeYouTubeUrl} value={YouTubeUrl} />
+            <TextField onChange={(e) => changeYouTubeUrl(e)} value={YouTubeUrl} />
             <Button onClick={loadYouTubeUrl}>
                 動画を読み込む
             </Button>

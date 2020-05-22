@@ -40,14 +40,37 @@ export const Watch:React.FC<WatchPageProps> = ({youtubeID, title, channelName, t
             Axios.get( 
                     rootUrl + "/movies/" + vid
                 ).then((res) => {
-                    tags = res.data.payload.tag
-                    console.log({res, tags})
-                    dispatch(loadTag(vid, tags, tagType))
+                    const status = res.data.status
+                    if(status === "success"){
+                        tags = res.data.payload.tag
+                        console.log({res, tags, tagType})
+                        dispatch(loadTag(vid, tags, tagType))
+                    }else if(res.data.error_code === "010"){
+                        tags = []
+                        dispatch(loadTag(vid, tags, tagType))    
+                    }
                 }).catch((error) => {
                     console.log({error})
                 })
-        }
-    },[vid])
+            }
+            if(tagType === "editor" && tagState.editor.youtubeID !== vid){
+                 Axios.get( 
+                         rootUrl + "/movies/" + vid
+                     ).then((res) => {
+                         const status = res.data.status
+                         if(status === "success"){
+                             tags = res.data.payload.tag
+                             console.log({res, tags, tagType})
+                             dispatch(loadTag(vid, tags, tagType))
+                         }else if(res.data.error_code === "010"){
+                             tags = []
+                             dispatch(loadTag(vid, tags, tagType))    
+                         }
+                     }).catch((error) => {
+                         console.log({error})
+                     })
+             }
+        },[vid])
     let url:string = "https://www.youtube.com/watch?v=" + vid
 
     const config={
