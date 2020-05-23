@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Container, Grid, Box, Typography } from '@material-ui/core';
+import { Container, Grid, Box, Typography, makeStyles } from '@material-ui/core';
 import ReactPlayer from 'react-player'
 import { useParams } from 'react-router';
 import { TagForm } from './WatchComponents/TagForm';
@@ -21,6 +21,18 @@ interface RouteParams{
     id: string  
 }
 
+const useWatchPageStyle = makeStyles(theme => ({
+    movieTitle:{
+        [theme.breakpoints.up('md')]:{
+            fontSize: "1rem",
+        },
+        
+        [theme.breakpoints.down('sm')]:{
+            fontSize: "0.9rem",
+        }
+    },
+}))
+
 export const Watch:React.FC<WatchPageProps> = ({youtubeID, title, channelName, tagType}) => {
     let urlParams= useParams<RouteParams>()
     let vid: string
@@ -34,6 +46,8 @@ export const Watch:React.FC<WatchPageProps> = ({youtubeID, title, channelName, t
     let movieTitle = (tagType === "movie") ? tagState.movie.title : tagState.editor.title 
     let channelTitle = (tagType === "movie") ? tagState.movie.channelName : tagState.editor.channelName
     
+    const classes = useWatchPageStyle()
+
     console.log({tagState})
     useEffect(() => {
         if(tagType === "movie" && tagState.movie.youtubeID !== vid){
@@ -82,7 +96,7 @@ export const Watch:React.FC<WatchPageProps> = ({youtubeID, title, channelName, t
         }
     }
     
-    console.log({movieTitle, channelTitle})
+
 
     return(
         <>
@@ -99,10 +113,10 @@ export const Watch:React.FC<WatchPageProps> = ({youtubeID, title, channelName, t
                         </Grid>
 
                         <Grid item>
-                            <Typography variant="body1">
+                            <Typography variant="body1" className={classes.movieTitle}>
                                 {movieTitle}
                             </Typography>
-                            <Typography variant="body2" >
+                            <Typography variant="body2" className={classes.movieTitle}>
                                 {channelTitle}
                             </Typography>
                         </Grid>

@@ -52,6 +52,7 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
     const[isNotificationModal, setNotificationModal] = useState<boolean>(false)
     let tags: Tag[]
     const history = useHistory()
+    const isRegistered = tagState.editor.isRegistered
 
     if(isMoviePage) tags = tagState.movie.tags
     else if(isEditPage) tags = tagState.editor.tags
@@ -99,7 +100,7 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
     }
 
     const postNewMovie = (accessToken:string, payload: tagState["movie"] | tagState["editor"], tagType:tagTypes) => {
-        if(isEditPage){
+        if(isEditPage && !isRegistered){
             return axios.post(rootUrl + '/movies/',{
                 access_token: accessToken,
                 youtube_id: youtubeID,
@@ -247,7 +248,7 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
                     <Grid container justify={"center"}>
                         <Grid item>
                             <Typography variant={"body1"}>
-                                動画を登録しました！
+                                {((!isRegistered) ? "動画を登録しました！" : "タグを更新しました！")}
                             </Typography>
                         </Grid>
                         <Grid item>
@@ -265,6 +266,20 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
         )
     }
 
+    const editButtonStyles = makeStyles(theme => ({
+        editButton:{
+            [theme.breakpoints.up('md')]:{
+                fontSize: "1 rem",
+            },
+            
+            [theme.breakpoints.down('sm')]:{
+                fontSize: "0.8rem",
+            }
+        },
+    }))
+
+    const classes = editButtonStyles()
+
     return(
         <>
             <div style={{marginLeft: 20}}>
@@ -280,22 +295,22 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
             {(isEditing  && isAuthenticated) && (
                 <>
                     <TextField onChange={changeTextField} value={TagTextField} onKeyDown={onEnter} />
-                    <Button variant="outlined" onClick={setNewTag}>
+                    <Button variant="outlined" onClick={setNewTag} className={classes.editButton}>
                         タグを追加
                     </Button>
                     
-                    <Button variant="outlined" onClick={postNewTag}>
+                    <Button variant="outlined" onClick={postNewTag} className={classes.editButton}>
                         {(isMoviePage) ? "タグを保存" : "動画を登録" }
                     </Button>
                     {(isMoviePage) && (
-                        <Button variant="outlined" onClick={()=>setEditing(false)}>
+                        <Button variant="outlined" onClick={()=>setEditing(false)} className={classes.editButton}>
                             編集を終了
                         </Button>
                     )}
                 </>
             )}
             {(!isEditing && isAuthenticated) &&(
-                <Button variant="outlined" onClick={()=>setEditing(true)}>
+                <Button variant="outlined" onClick={()=>setEditing(true)} className={classes.editButton}>
                     タグを追加する
                 </Button>
             )}
@@ -321,6 +336,13 @@ const tagStyles = makeStyles(theme => ({
     tagButton:{
         backgroundColor: '#ffffff',
         display: 'inline-block',
+        [theme.breakpoints.up('md')]:{
+            fontSize: "1 rem",
+        },
+        
+        [theme.breakpoints.down('sm')]:{
+            fontSize: "0.8rem",
+        }
     },
 }))
 
@@ -353,7 +375,7 @@ const TagButton:React.FC<TagButtonProps> = ({props, isToggled, isEditing, isAuth
     return(
         <>
             <div style={{margin: 6}} >
-                <Button className={classes.tagButton} variant="contained" onClick={onClick}>
+                <Button className={classes.tagButton} variant="contained" onClick={onClick}> 
                     {props}
                 </Button>
                 {(isToggled && isEditing) && <DeleteButton/>}

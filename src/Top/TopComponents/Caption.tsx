@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Typography, Grid} from '@material-ui/core/'
+import {Button, Typography, Grid, makeStyles} from '@material-ui/core/'
 import VindexLogo from '../../Vindex_logo.png'
 
 export const Caption = () => {
@@ -27,10 +27,24 @@ const Logo = () => {
     )
 }
 
+const useCaptionStyle = makeStyles(theme => ({
+    caption:{   
+        margin: "auto",
+        [theme.breakpoints.up('md')]:{
+            fontSize: "1.5rem",
+        },
+        
+        [theme.breakpoints.down('sm')]:{
+            fontSize: "1rem",
+        }
+    }
+}))
+
 const ServiceCaption= () => {
+    const classes = useCaptionStyle()
     return(
         <>
-            <Typography  variant="h5">
+            <Typography className={classes.caption}>
                 YouTube上の動画をタグ付けして検索
             </Typography>
         </>

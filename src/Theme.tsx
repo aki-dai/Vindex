@@ -10,6 +10,7 @@ export const theme = createMuiTheme({
     button: {
         textTransform: "none"
     }
+    
   },
   spacing: 8,
 });

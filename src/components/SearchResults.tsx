@@ -8,7 +8,7 @@ import { useSearch } from './customHooks';
 
 const useContainerStyles = makeStyles(theme => ({
     root:{
-        maxWidth: 270*4,
+        maxWidth: 270*4+40,
         justify: "center",
     }
 }))
@@ -93,14 +93,29 @@ interface MovieInfoProps{
     channelName: string
 }
 
+
+const useTextStyles = makeStyles(theme => ({
+    movieTitle:{
+        [theme.breakpoints.up('md')]:{
+            fontSize: "0.9rem",
+        },
+        
+        [theme.breakpoints.down('sm')]:{
+            fontSize: "0.8rem",
+        }
+    },
+}))
+
+
 const MovieInfo:React.FC<MovieInfoProps> = ({title, channelName}) => {
+    const classes = useTextStyles()
     return(
         <>
             <CardContent>
-                <Typography variant="body1">
+                <Typography variant="body1" className={classes.movieTitle}>
                     {title}
                 </Typography>
-                <Typography variant="body2">
+                <Typography variant="body2" className={classes.movieTitle}>
                     {channelName}
                 </Typography>          
             </CardContent>
@@ -118,6 +133,14 @@ const useTagStyles = makeStyles(theme => ({
         backgroundColor: '#ffffff',
         margin: '2px',
         display: 'inline-block',
+        
+        [theme.breakpoints.up('md')]:{
+            fontSize: "0.8rem",
+        },
+        
+        [theme.breakpoints.down('sm')]:{
+            fontSize: "0.7rem",
+        }
     },
 }))
 
@@ -129,7 +152,7 @@ const Tags:React.FC<TagsProp> = ({tags}) => {
         <>  
                 {tags.map((tag, index) => {
                     return(
-                        <Button variant="contained" className={classes.tag} onClick={() => setSearch(tag.value ,"Tag")} key={index}>
+                        <Button variant="contained" size="small" className={classes.tag} onClick={() => setSearch(tag.value ,"Tag")} key={index}>
                             {tag.value}
                         </Button>
                     )
