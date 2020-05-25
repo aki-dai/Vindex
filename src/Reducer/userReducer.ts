@@ -14,7 +14,7 @@ export interface userState{
     error: string
 }
 
-const initialState: userState = {
+export const initialState: userState = {
     status: 'initial',
     authenticated: false,
     accessToken: "",

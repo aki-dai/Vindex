@@ -4,7 +4,7 @@ export interface AuthState{
     redirectPath: string
 } 
 
-const initialState: AuthState = {
+export const initialState: AuthState = {
     redirectPath: ''
 }
 

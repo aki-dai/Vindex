@@ -29,11 +29,18 @@ export function SearchComplete(q: string, sort: sortType, count:number, results:
     }
 }
  
-export function SearchErrorAction(q:string, sort: sortType, error:string) {
+export function SearchErrorAction(q:string, sort: sortType, error:string): SearchActionTypes {
     return{
-        type: 'SEARCH_ERROR',
+        type: 'SEARCH_ACTION_ERROR',
         query: q,
         sort: sort,
         error: error,
     } 
+}
+
+export function changeSearchRefine(refine: boolean): SearchActionTypes{
+    return {
+        type: 'CHANGE_REFINE',
+        andSearch: refine
+    }
 }

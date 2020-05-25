@@ -12,7 +12,6 @@ export const Editor = () => {
     const [isLoaded, setIsLoaded] = useState<boolean>(false)
     const [movieState, getMovieInfo, loading, error] = useMovieInfo()
 
-    const dispatch = useDispatch()
     const tagState: tagState = useSelector((state :any) => state.tagReducer)
     const userState = useSelector((state :any) => state.userReducer)
     console.log({tagState}, {userState})

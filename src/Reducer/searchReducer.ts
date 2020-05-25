@@ -5,6 +5,7 @@ export interface searchState{
     searchStatus: APIStatus
     query: string
     sort: sortType
+    andSearch:boolean
     searchCount: number
     searchResult: ResultIndex[]
 } 
@@ -12,6 +13,7 @@ export interface searchState{
 const initialState:searchState = {
     searchStatus: 'initial',
     query: "",
+    andSearch: true,
     sort: 'latest',
     searchCount: 0,
     searchResult: [],
@@ -63,6 +65,13 @@ const searchReducer = (state = initialState, action:SearchActionTypes) => {
                     searchStatus: 'error',
                 }
             }
+
+        case "CHANGE_REFINE":{
+            return{
+                ...state,
+                andSearch: action.andSearch
+            }
+        }
 
         default: {
             const _: never = action

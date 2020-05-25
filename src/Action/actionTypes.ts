@@ -21,6 +21,7 @@ export const SEARCH_SUBMIT = 'SEARCH_ACTION_SUBMIT'
 export const SEARCH_START = 'SEARCH_ACTION_START'
 export const SEARCH_COMPLETE = 'SEARCH_ACTION_COMPLETE'
 export const SEARCH_ERROR = 'SEARCH_ACTION_ERROR'
+export const CHANGE_REFINE = 'CHANGE_REFINE'
 
 export const AUTH = 'AUTH'
 
@@ -189,10 +190,16 @@ export interface SearchErrorAction {
     error: unknown
 }
 
+export interface changeSearchRefine {
+    type: typeof CHANGE_REFINE
+    andSearch: boolean
+}
+
 export type SearchActionTypes = SearchSubmitAction |
                                 SearchStartAction |
                                 SearchCompleteAction |
-                                SearchErrorAction
+                                SearchErrorAction|
+                                changeSearchRefine
 
 export interface AuthAction {
     type: typeof AUTH

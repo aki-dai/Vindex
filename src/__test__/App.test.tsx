@@ -8,38 +8,37 @@ import {Top} from '../Top/TopPage'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import {Caption} from '../Top/TopComponents/Caption'
+import {NewMovies} from '../Top/TopComponents/NewMovies'
 import {SearchBox} from '../components/SearchBox'
-import { act } from 'react-test-renderer';
+import { Provider } from 'react-redux';
+import store, {persistor} from '../store' 
 
 configure({ adapter: new Adapter() });
 
 it('renders without crashing ', () => {
   const div = document.createElement('div');
   ReactDOM.render(
-    <MemoryRouter initialEntries={['/']} initialIndex={0}>
-      <App />
-    </MemoryRouter>, div);
+    <Provider store={store}>
+      <MemoryRouter initialEntries={['/']} initialIndex={0}>
+        <App />
+      </MemoryRouter>
+    </Provider>, div);
   ReactDOM.unmountComponentAtNode(div);
 });
 
 describe('Top Page displayed collectly',() => {
   it('Components should exist',() => {
     const wrapper = mount(
-      <MemoryRouter initialEntries={['/']} initialIndex={0}>
-        <App />
-      </MemoryRouter>);
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/']} initialIndex={0}>
+          <App />
+        </MemoryRouter>
+      </Provider>);
       expect(wrapper.find(Top).length).toEqual(1)
       expect(wrapper.find(Header).length).toEqual(1)
       expect(wrapper.find(Caption).length).toEqual(1)
+      expect(wrapper.find(NewMovies).length).toEqual(1)
       expect(wrapper.find(SearchBox).length).toEqual(1)
       expect(wrapper.find(Footer).length).toEqual(1)
-  })
-
-  it('TextBox will',() => {
-    const wrapper = mount(
-      <MemoryRouter initialEntries={['/']} initialIndex={0}>
-        <SearchBox />
-      </MemoryRouter>);
-      wrapper.find('#Search-SelectMenu-Tag').simulate('click')
   })
 })
