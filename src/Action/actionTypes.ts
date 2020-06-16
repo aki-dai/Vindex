@@ -22,6 +22,8 @@ export const SEARCH_START = 'SEARCH_ACTION_START'
 export const SEARCH_COMPLETE = 'SEARCH_ACTION_COMPLETE'
 export const SEARCH_ERROR = 'SEARCH_ACTION_ERROR'
 export const CHANGE_REFINE = 'CHANGE_REFINE'
+export const CHANGE_PAGE = 'CHANGE_PAGE'
+export const CHANGE_SORT = 'CHANGE_SORT'
 
 export const AUTH = 'AUTH'
 
@@ -159,13 +161,14 @@ export interface ResultIndex {
     clicked: boolean;
 }
 
-export type sortType = 'latest' | 'oldest' | 'new_movie' | 'previous_movie'
+export type sortType = 'latest' | 'duration' | 'new_post'
 
 export interface SearchSubmitAction {
     type: typeof SEARCH_SUBMIT
     payload: {
         query: string
         sort: sortType
+        pagenation: boolean
     }
 }
  
@@ -179,6 +182,7 @@ export interface SearchCompleteAction {
         query: string
         count: number
         sort: sortType
+        and: boolean
         results:ResultIndex[]
     }
 }
@@ -195,11 +199,23 @@ export interface changeSearchRefine {
     andSearch: boolean
 }
 
+export interface changePage{
+    type: typeof CHANGE_PAGE
+    page: number
+}
+
+export interface changeSort{
+    type: typeof CHANGE_SORT
+    sort: string
+}
+
 export type SearchActionTypes = SearchSubmitAction |
                                 SearchStartAction |
                                 SearchCompleteAction |
                                 SearchErrorAction|
-                                changeSearchRefine
+                                changeSearchRefine|
+                                changePage|
+                                changeSort
 
 export interface AuthAction {
     type: typeof AUTH

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {Select, MenuItem, TextField, InputLabel, FormControl, Input, Button, makeStyles} from '@material-ui/core/'
 import { textAlign } from '@material-ui/system';
 import { useHistory, useLocation } from 'react-router';
-import { queryToWord, queryToScope } from './functions' 
+import { queryToWord, queryToScope} from './functions' 
 import { useSearch } from './customHooks'
 
 const useStyles = makeStyles(theme => ({
@@ -47,7 +47,7 @@ export const SearchBox = () => {
         <>    
             <SelectField SelectChange={SelectChange} selectValue={searchScope}/>
             <InputField TextFieldChange={TextFieldChange} textValue={searchWord} />
-            <SearchButton onClick={() => setSearch(searchWord, searchScope)}/>
+            <SearchButton onClick={() => setSearch(searchWord, searchScope, 1)}/>
         </>
     )
 }

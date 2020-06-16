@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`userReducer works collectly logOut 1`] = `
+Object {
+  "initialState": Object {
+    "accessExp": null,
+    "accessToken": "",
+    "authenticated": false,
+    "error": "",
+    "image": "",
+    "nickName": "",
+    "provider": "",
+    "refreshToken": "",
+    "status": "initial",
+    "userID": "",
+    "userName": "",
+  },
+}
+`;

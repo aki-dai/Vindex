@@ -14,3 +14,24 @@ export const queryToScope = (qs:string) => {
     if(!queryScope) return "Tag"
     else return queryScope
 }
+
+export const queryToPage = (qs:string) => {
+    const queryParsed = queryString.parse(qs, {arrayFormat: 'comma'})
+    const queryPage = queryParsed.p as string
+    if(!queryPage) return 1
+    else return queryPage
+}
+
+export const queryToAnd = (qs:string) => {
+    const queryParsed = queryString.parse(qs, {arrayFormat: 'comma'})
+    const queryAndSearch = queryParsed.a as string
+    if(!queryAndSearch) return "true"
+    else return queryAndSearch
+}
+
+export const queryToSort = (qs:string) => {
+    const queryParsed = queryString.parse(qs, {arrayFormat: 'comma'})
+    const queryAndSearch = queryParsed.s as string
+    if(!queryAndSearch) return "latest"
+    else return queryAndSearch
+}

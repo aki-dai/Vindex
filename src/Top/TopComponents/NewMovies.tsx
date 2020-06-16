@@ -34,7 +34,7 @@ export const NewMovies = () => {
                     </Typography>
                 </Grid>
                 <Grid item>
-                    <SearchContainer props={results} />
+                    <SearchContainer props={results} count={20} page={1} option={"latest"} />
                 </Grid>
             </Grid>
         </>

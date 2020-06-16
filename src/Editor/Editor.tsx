@@ -49,6 +49,7 @@ export const Editor = () => {
                         </span>
                     </>
                 )}
+                
                 <Watch youtubeID={videoId} title={title} channelName={channelName} tagType={"editor"}/>
             </>
         )

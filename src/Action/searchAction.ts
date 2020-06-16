@@ -1,12 +1,13 @@
 import {SearchActionTypes, ResultIndex, sortType} from './actionTypes'
 import { queryToScope } from '../components/functions';
 
-export function SearchSubmit(q: string, sort: sortType): SearchActionTypes{
+export function SearchSubmit(q: string, sort: sortType, pagenation: boolean): SearchActionTypes{
     return {
         type:'SEARCH_ACTION_SUBMIT',
         payload:{
             query: q,
-            sort: sort
+            sort: sort,
+            pagenation: pagenation
         }
     }
 }
@@ -17,13 +18,15 @@ export function SearchStart(): SearchActionTypes{
     }
 }
 
-export function SearchComplete(q: string, sort: sortType, count:number, results:ResultIndex[]): SearchActionTypes{
+
+export function SearchComplete(q: string, sort: sortType,and: boolean, count:number, results:ResultIndex[]): SearchActionTypes{
     return {
         type:'SEARCH_ACTION_COMPLETE',
         payload:{
             query: q,
             count: count,
             sort: sort,
+            and: and,
             results: results
         }
     }
@@ -42,5 +45,20 @@ export function changeSearchRefine(refine: boolean): SearchActionTypes{
     return {
         type: 'CHANGE_REFINE',
         andSearch: refine
+    }
+}
+
+
+export function changePage(page: number): SearchActionTypes{
+    return{
+        type: 'CHANGE_PAGE',
+        page: page
+    }
+}
+
+export function changeSort(sort: string): SearchActionTypes{
+    return{
+        type: 'CHANGE_SORT',
+        sort: sort
     }
 }

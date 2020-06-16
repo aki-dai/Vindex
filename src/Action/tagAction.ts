@@ -42,7 +42,6 @@ export function addTag(valueTag: Tag, tagType: tagTypes): TagActionTypes{
 }
 
 export function deleteTag(numDeleteTag: number, tagType: tagTypes): TagActionTypes{
-    console.log({numDeleteTag}, tagType)
     return {
         type            : DELETE_TAG,
         numDeleteTag    : numDeleteTag,

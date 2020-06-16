@@ -14,6 +14,10 @@ import { Provider } from 'react-redux';
 import store, {persistor} from '../store' 
 
 configure({ adapter: new Adapter() });
+beforeEach((done) => {
+      done();
+});
+
 
 it('renders without crashing ', () => {
   const div = document.createElement('div');

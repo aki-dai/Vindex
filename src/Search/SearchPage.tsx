@@ -12,25 +12,31 @@ import { useParams } from 'react-router';
 
 const useStyles = makeStyles(theme => ({
     root:{
+        width: "100%",
+    },
+    container:{
+        width: "100%",
         maxWidth: 270*4,
         justify: "flex-start",
         paddingLeft: 24,
         paddingBottom: 8,
-    },
+    }
 }))
 
 export const Search: React.FC = () => {
     const classes = useStyles()
     return(
         <>
-            <SearchEffect />
-                <Grid container className = {classes.root} >
+            <Grid container className = {classes.root}>
+                <SearchEffect />
+                <Grid container className = {classes.container}>
                     <Grid item>
                         <SearchBox />
                         <SearchConditions />
                     </Grid>
                 </Grid>
                 <SearchWrapper />
+            </Grid>
         </>
     )
 }

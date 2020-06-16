@@ -11,6 +11,7 @@ import {Editor} from './Editor/Editor'
 import {Auth} from './Auth/Auth'
 import { NotificationModal } from './Notification/NotificationModal'
 
+import * as H from 'history'
 import { Container, Grid, Box, makeStyles, Theme, createStyles } from '@material-ui/core';
 import { MyPage } from './MyPage/MyPage';
 import { UserInfoEffect } from './components/customHooks';
@@ -26,16 +27,17 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         topItems:{
             margin: 'auto',
+            width: '100%',
         }
     })
 )
 
 
+
 const App: React.FC = () => {
-  let location = useLocation()
+  let location: H.Location<any> = useLocation()
   console.log({location})
   let background = location.state && location.state.background
-  let notification = location.state && location.state.notification
   const classes = useStyles()
 
   return (

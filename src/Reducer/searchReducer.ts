@@ -8,11 +8,13 @@ export interface searchState{
     andSearch:boolean
     searchCount: number
     searchResult: ResultIndex[]
+    page: number
 } 
 
-const initialState:searchState = {
+export const initialState:searchState = {
     searchStatus: 'initial',
     query: "",
+    page: 1,
     andSearch: true,
     sort: 'latest',
     searchCount: 0,
@@ -24,19 +26,24 @@ const searchReducer = (state = initialState, action:SearchActionTypes) => {
         case "SEARCH_ACTION_SUBMIT":{
             const { searchStatus } = state  
             if(searchStatus === ('waiting' || 'loading')) return state
-            const {query, sort}= action.payload
+            const {query, sort, pagenation}= action.payload
+            let page = state.page
+            if(!pagenation) page = 1
+            console.log({action})
             return{
                 ...state,
                 query: query,
                 sort: sort,
-                searchStatus: 'waiting'
+                searchStatus: 'waiting',
+                page: page
             }
         }
 
         case "SEARCH_ACTION_START":{
             return{
                 ...state,
-                searchStatus: 'loading'
+                searchStatus: 'loading',
+                searchResult: [],
             }
         }
 
@@ -53,8 +60,11 @@ const searchReducer = (state = initialState, action:SearchActionTypes) => {
             })
             return{
                 ...state,
+                query: action.payload.query,
+                sort: action.payload.sort,
                 searchStatus: 'complete',
-                searchCount: count, 
+                searchCount: count,
+                andSearch: action.payload.and,
                 searchResult: results,
             } 
         }
@@ -70,6 +80,20 @@ const searchReducer = (state = initialState, action:SearchActionTypes) => {
             return{
                 ...state,
                 andSearch: action.andSearch
+            }
+        }
+
+        case "CHANGE_PAGE":{
+            return{
+                ...state,
+                page: action.page
+            }
+        }
+
+        case "CHANGE_SORT":{
+            return{
+                ...state,
+                sort: action.sort
             }
         }
 

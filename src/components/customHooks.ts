@@ -8,22 +8,37 @@ import { rootUrl } from '../serverUrl'
 import queryString from 'query-string'
 import { useHistory } from 'react-router'
 import { SearchSubmit } from '../Action/searchAction'
+import { SortSelect } from "../Search/SearchComponent/SortComponents/SortSelect";
+import { sortType } from "../Action/actionTypes";
 
 
 export const useSearch = () => {
     const history = useHistory()
     const dispatch = useDispatch()
-
-    const setSearch = (searchWord:string, searchScope:string) => {
+    const searchState = useSelector((state:any) => state.searchReducer)
+    const defaultWord:string = searchState.query
+    const refine:boolean = searchState.andSearch
+    const sort:sortType = searchState.sort
+    const page:number = searchState.page
+    const andQuery = (refine === true) ? "true" : "false"
+    
+    const setSearch = (searchWord:string = defaultWord, searchScope:string = "Tag", page:number, pagenation?: boolean) => {
+        let isPagenation = false;
         if (searchWord == "") return null
-        
+        if (pagenation) isPagenation = true
+
         const queryObject = {
             q: searchWord.split(/\s+/),                                                       
-            t: searchScope                                                                                         
-        }
+            t: searchScope,
+            a: andQuery,
+            s: sort,
+            p: String(page),                                                                           
+        }        
+        console.log({queryObject})
         const queryUrl:string = queryString.stringify(queryObject, {arrayFormat: 'comma'})
-        dispatch(SearchSubmit(searchWord, 'latest'))
-        history.push('/search?' + queryUrl)
+
+        dispatch(SearchSubmit(searchWord, sort, isPagenation))
+        history.push('/search?'+queryUrl)
     }
     return setSearch
 }
@@ -158,23 +173,43 @@ export const useMovieInfo = () =>{
 type APIStatus = 'initial' | 'waiting' | 'loading' | 'complete' | 'error'
 
 export const SearchEffect = () => {
+    const history = useHistory()
     const searchState = useSelector((state:any) => state.searchReducer)
     const dispatch = useDispatch()
     const status = searchState.searchStatus
-    const query = searchState.query
+    const query:string = searchState.query
+    const and:boolean  = searchState.andSearch
+    const page: number = searchState.page
     const sort = searchState.sort
+    console.log(and)
+
+    /*const queryObject = {
+        q: query,                                                       
+        t: "Tag",
+        a: and,
+        s: sort,
+        p: String(page),                                                                           
+    }*/        
+    //console.log({queryObject})
+    //const queryUrl:string = queryString.stringify(queryObject, {arrayFormat: 'comma'})
     useEffect(() => { 
         (async () => {
             if (status !== 'waiting') return
             dispatch(SearchStart())
+            //history.push('/search?' + queryUrl)
+            
             try{
                 const searchResult = await Axios.get(rootUrl + "/search",
                     {
                         params:{
-                            q: query
+                            q: query,
+                            a: and,
+                            s: sort,
+                            p: String(page),      
                     }})
                 dispatch(SearchComplete(query, 
-                                        sort, 
+                                        sort,
+                                        and,
                                         searchResult.data.payload.count,
                                         searchResult.data.payload.results))
                 

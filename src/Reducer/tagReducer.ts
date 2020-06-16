@@ -19,7 +19,7 @@ export interface tagState{
     }
 } 
 
-const initialState:tagState = {
+export const initialState:tagState = {
     editor:{
         youtubeID   :"",
         title       :"",
@@ -59,6 +59,7 @@ const tagReducer = (state = initialState, action:TagActionTypes) => {
                 ...state,
                 movie:{
                     ...state.movie,
+                    youtubeID   : action.youtubeID,
                     title       : action.title,
                     channelName : action.channel_name,
                 }
@@ -106,13 +107,20 @@ const tagReducer = (state = initialState, action:TagActionTypes) => {
         }
 
         case "DELETE_TAG":{
+            const return_tags:Tag[] = []
+            const change_tag = (action.tagType === "movie") ? state.movie.tags : state.editor.tags
+            for(let i = 0; i < change_tag.length; i++){
+                if(i != action.numDeleteTag){
+                    return_tags.push(change_tag[i])
+                }
+            }
+            console.log({change_tag})
             if(action.tagType === "movie"){
                 return{
                     ...state,
                     movie:{
                         ...state.movie,
-                        tags: state.movie.tags.slice(0, action.numDeleteTag)
-                                         .concat(state.movie.tags.slice(action.numDeleteTag + 1, state.movie.tags.length))
+                        tags: return_tags
                     }
                 }
             }
@@ -122,8 +130,7 @@ const tagReducer = (state = initialState, action:TagActionTypes) => {
                     ...state,
                     editor:{
                         ...state.editor,
-                        tags: state.editor.tags.slice(0, action.numDeleteTag)
-                                         .concat(state.editor.tags.slice(action.numDeleteTag + 1, state.editor.tags.length))
+                        tags: return_tags
                     }
                 }
             }

@@ -91,7 +91,7 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
 
     const setToggleTagMenu = (index:number, query:string) => {
         if(isEditing) setFocusedTag(index)
-        else setSearch(query, "Tag")
+        else setSearch(query, "Tag", 1)
     }
 
     const deleteTagAction = () => {
@@ -367,7 +367,7 @@ const TagButton:React.FC<TagButtonProps> = ({props, isToggled, isEditing, isAuth
         if(location.pathname==="/registration") return null
         else return(
             <div style={MenuStyle}>
-                <span onClick={() => setSearch(props ,"Tag")} style={{cursor: "pointer"}}>このタグで検索</span>
+                <span onClick={() => setSearch(props ,"Tag", 1)} style={{cursor: "pointer"}}>このタグで検索</span>
             </div>
         )
     }
