@@ -23,9 +23,9 @@ describe('authReducer works collectly',() => {
 
 describe('searchReducer works collectly',() => {
     it('setSearchWord',() => {
-        expect(searchReducer(searchInitialState, searchAction.SearchSubmit('VTuber', 'new_movie'))).toMatchObject({
+        expect(searchReducer(searchInitialState, searchAction.SearchSubmit('VTuber', 'latest', true))).toMatchObject({
             query: 'VTuber',
-            sort: 'new_movie',
+            sort: 'latest',
             searchStatus: 'waiting'})
     })
 
@@ -35,15 +35,15 @@ describe('searchReducer works collectly',() => {
     })
 
     it('completeSearch',() => {
-        expect(searchReducer(searchInitialState, searchAction.SearchComplete('VTuber', 'previous_movie', 0, []))).toMatchObject({
+        expect(searchReducer(searchInitialState, searchAction.SearchComplete('VTuber', 'new_post', true, 0, []))).toMatchObject({
             query: 'VTuber',
-            sort: 'previous_movie',
+            sort: 'new_post',
             searchStatus: 'complete',        
             searchCount: 0, 
             searchResult: [],
         })
         
-        expect(searchReducer(searchInitialState, searchAction.SearchComplete('歌ってみた', 'latest', 0, []))).toMatchObject({
+        expect(searchReducer(searchInitialState, searchAction.SearchComplete('歌ってみた', 'latest', true, 0, []))).toMatchObject({
             query: '歌ってみた',
             sort: 'latest',
             searchStatus: 'complete',        
@@ -52,7 +52,7 @@ describe('searchReducer works collectly',() => {
         })
     })    
     it('errorSearch',() => {
-        expect(searchReducer(searchInitialState, searchAction.SearchErrorAction('VTuber', 'previous_movie',"error"))).toMatchObject({
+        expect(searchReducer(searchInitialState, searchAction.SearchErrorAction('VTuber', 'duration',"error"))).toMatchObject({
             searchStatus: 'error', 
         })
     })

@@ -46,7 +46,6 @@ export const Watch:React.FC<WatchPageProps> = ({youtubeID, title, channelName, t
     
     const classes = useWatchPageStyle()
 
-    console.log({tagState})
     useEffect(() => {
         if(tagType === "movie" && tagState.movie.youtubeID !== vid){
             Axios.get( 
@@ -59,7 +58,7 @@ export const Watch:React.FC<WatchPageProps> = ({youtubeID, title, channelName, t
                         dispatch(loadTag(vid, [], tagType))    
                     }
                 }).catch((error) => {
-                    console.log({error})
+                    //console.log({error})
                 })
             }
             if(tagType === "editor" && tagState.editor.youtubeID !== vid){
@@ -73,7 +72,7 @@ export const Watch:React.FC<WatchPageProps> = ({youtubeID, title, channelName, t
                              dispatch(loadTag(vid, [], tagType))    
                          }
                      }).catch((error) => {
-                         console.log({error})
+                         //console.log({error})
                      })
              }
         },[vid, dispatch, tagState.editor.youtubeID, tagState.movie.youtubeID, tagType])

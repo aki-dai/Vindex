@@ -29,7 +29,6 @@ const searchReducer = (state = initialState, action:SearchActionTypes) => {
             const {query, sort, pagenation}= action.payload
             let page = state.page
             if(!pagenation) page = 1
-            console.log({action})
             return{
                 ...state,
                 query: query,
@@ -98,7 +97,6 @@ const searchReducer = (state = initialState, action:SearchActionTypes) => {
         }
 
         default: {
-            const _: never = action
             return state
         }
     }

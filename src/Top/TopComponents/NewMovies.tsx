@@ -23,7 +23,6 @@ export const NewMovies = () => {
             }})
     }, [])
     const classes = useStyles()
-    console.log(results)
     return(
         <>
             <Grid container className={classes.root}>

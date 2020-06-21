@@ -3,16 +3,16 @@ import { Watch } from '../Watch/WatchPage';
 import { TextField, Button } from '@material-ui/core';
 
 import { useSelector } from "react-redux";
-import { tagState } from '../Reducer/tagReducer'
+import { tagStateTypes } from '../Reducer/tagReducer'
 import { useMovieInfo } from '../components/customHooks';
 
 
 export const Editor = () => {
-    const [movieState, getMovieInfo, loading, error] = useMovieInfo()
+    const getMovieInfo = useMovieInfo()
 
-    const tagState: tagState = useSelector((state :any) => state.tagReducer)
+    const tagState: tagStateTypes = useSelector((state :any) => state.tagReducer)
     const userState = useSelector((state :any) => state.userReducer)
-    console.log({tagState}, {userState})
+    //console.log({tagState}, {userState})
 
     const title = tagState.editor.title
     const channelName = tagState.editor.channelName

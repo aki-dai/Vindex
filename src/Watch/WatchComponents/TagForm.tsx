@@ -5,8 +5,8 @@ import { useHistory } from 'react-router';
 import axios from 'axios';
 
 import { useDispatch, useSelector } from "react-redux";
-import {tagState} from '../../Reducer/tagReducer'
-import {userState} from '../../Reducer/userReducer'
+import {tagStateTypes} from '../../Reducer/tagReducer'
+import {userStateTypes} from '../../Reducer/userReducer'
 import {Tag, tagTypes} from '../../Action/actionTypes'
 import {addTag, deleteTag} from '../../Action/tagAction'
 import { updateAccessToken, signOut } from '../../Action/userAction';
@@ -35,8 +35,8 @@ interface TagFormProps{
 
 export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
     const dispatch = useDispatch()
-    const tagState:tagState = useSelector(tagSelector)
-    const userState:userState = useSelector(userSelector)
+    const tagState:tagStateTypes = useSelector(tagSelector)
+    const userState:userStateTypes = useSelector(userSelector)
     const setSearch = useSearch()
 
     const isMoviePage = (tagType === "movie") 
@@ -97,7 +97,7 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
         setFocusedTag(-1)
     }
 
-    const postNewMovie = (accessToken:string, payload: tagState["movie"] | tagState["editor"], tagType:tagTypes) => {
+    const postNewMovie = (accessToken:string, payload: tagStateTypes["movie"] | tagStateTypes["editor"], tagType:tagTypes) => {
         if(isEditPage && !isRegistered){
             return axios.post(rootUrl + '/movies/',{
                 access_token: accessToken,
@@ -116,20 +116,20 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
 
     //要リファクタリング
     const postNewTag = async () => {
-        let sendData: tagState["movie"] | tagState["editor"]
+        let sendData: tagStateTypes["movie"] | tagStateTypes["editor"]
         //if(tagType === "movie") sendData = tagState.movie
         //else sendData = tagState.editor
         sendData = (tagType === "movie")? tagState.movie : tagState.editor
 
         const accessToken = userState.accessToken
         const postResponce = await postNewMovie(accessToken, sendData, tagType)
-        console.log(postResponce)
+        //console.log(postResponce)
         if(postResponce.data.status === "failed"){
             switch(postResponce.data.error_code){
                 case "001"://access token expired
-                    console.log(postResponce.data.message)
+                    //console.log(postResponce.data.message)
                     const newAccessToken = await refreshAccessToken(userState.refreshToken)
-                    console.log(newAccessToken)
+                    //console.log(newAccessToken)
                     if(newAccessToken.data.status === "success"){
 
                         const repostResponce = await postNewMovie(newAccessToken.data.payload.access_token, sendData, tagType)
@@ -144,14 +144,14 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
                 break
                 case "011":// API TimeOut
                     setError("更新に失敗しました。\n時間をおいて再度お試しください。")
-                    console.log(postResponce.data.message)
+                    //console.log(postResponce.data.message)
                 break
                 case "021":// API TimeOut
                     setError("更新に失敗しました。\n時間をおいて再度お試しください。")
-                console.log(postResponce.data.message)
+                //console.log(postResponce.data.message)
             break
                 case "101"://unregistered movie
-                    console.log(postResponce.data.message)
+                    //console.log(postResponce.data.message)
                 break
             }
         }else if(postResponce.data.status==="success"){

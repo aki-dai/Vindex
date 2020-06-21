@@ -1,6 +1,6 @@
 import { Tag, TagActionTypes } from '../Action/actionTypes'
 
-export interface tagState{
+export interface tagStateTypes{
     editor:{
         youtubeID   :string
         title       :string
@@ -19,7 +19,7 @@ export interface tagState{
     }
 } 
 
-export const initialState:tagState = {
+export const initialState:tagStateTypes = {
     editor:{
         youtubeID   :"",
         title       :"",

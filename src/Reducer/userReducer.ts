@@ -1,6 +1,6 @@
 import {APIStatus, UserActionTypes} from '../Action/actionTypes'
 
-export interface userState{
+export interface userStateTypes{
     status: APIStatus
     authenticated: boolean
     accessToken: string
@@ -14,7 +14,7 @@ export interface userState{
     error: string
 }
 
-export const initialState: userState = {
+export const initialState: userStateTypes = {
     status: 'initial',
     authenticated: false,
     accessToken: "",
@@ -49,7 +49,6 @@ const userReducer = (state = initialState, action:UserActionTypes) => {
             }
         }
         case "SET_USER_INFO":{
-            console.log({action})
             return{
                 ...state,
                 userName: action.userName,                

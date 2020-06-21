@@ -90,7 +90,7 @@ const newAccessToken = async (refreshToken: string) => {
 const Header = () => {
     const history = useHistory()
     const location = useLocation()
-    console.log({history, location})
+    //console.log({history, location})
     const userState = useSelector((state:any)=> state.userReducer)
     //const [userState, getUserInfo, loading, error] = useGetUserInfo()
     const dispatch = useDispatch()
@@ -121,7 +121,7 @@ const Header = () => {
     }, [userState.accessToken])
     */
 
-    console.log(drawerState)
+    //console.log(drawerState)
     const toggleDrawer = (open: boolean) => (event: React.MouseEvent | React.KeyboardEvent ) => {
         setDrawerState(open);
     } 

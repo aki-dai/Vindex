@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const App: React.FC = () => {
   let location: H.Location<any> = useLocation()
-  console.log({location})
+  //console.log({location})
   let background = location.state && location.state.background
   const classes = useStyles()
 

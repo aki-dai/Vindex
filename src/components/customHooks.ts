@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, } from "react";
+import { useCallback, useEffect, } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Axios from "axios";
 import { getUserInfoStart ,setUserInfo, updateAccessToken} from "../Action/userAction";
@@ -32,7 +32,7 @@ export const useSearch = () => {
             s: sort,
             p: String(page),                                                                           
         }        
-        console.log({queryObject})
+        //console.log({queryObject})
         const queryUrl:string = queryString.stringify(queryObject, {arrayFormat: 'comma'})
 
         dispatch(SearchSubmit(searchWord, sort, isPagenation))
@@ -88,7 +88,6 @@ export const UserInfoEffect = () => {
         (async ()=>{
             if (userState.status !=='waiting') return
             dispatch(getUserInfoStart())
-            console.log()
             try{
                 const userInfoResult = await Axios.get(rootUrl + "/users/", {
                     params:{
@@ -99,7 +98,7 @@ export const UserInfoEffect = () => {
                 const image    = userInfoResult.data.payload.image
                 dispatch(setUserInfo(userName, nickName, image))
             }catch(error){
-                console.log(error)
+                //console.log(error)
             }
         }
     )()},[
@@ -115,12 +114,12 @@ export const UserInfoEffect = () => {
                     refresh_token: refreshToken
                 })
                 if(accessTokenResult.data.status==="failed"){
-                    console.log(accessTokenResult.data)
+                    //console.log(accessTokenResult.data)
                     return null
                 }
                 dispatch(updateAccessToken(accessTokenResult.data.payload.access_token))
             }catch(error){
-                console.log(error)
+                //console.log(error)
             }
         }
     )()},[userState, accessExp, dispatch, isAuthenticated, refreshToken])
@@ -128,21 +127,21 @@ export const UserInfoEffect = () => {
 }
 
 export const useMovieInfo = () =>{
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState('')
+    //const [loading, setLoading] = useState(false)
+    //const [error, setError] = useState('')
     const userState = useSelector((state:any) => state.userReducer)
-    const movieState = useSelector((state:any) => state.movieFetchReducer)
+    //const movieState = useSelector((state:any) => state.movieFetchReducer)
     const dispatch = useDispatch()
 
     const getMovieInfo = useCallback(async (youtubeID: string, youtubeUrl :string) => {
         if(!userState.authenticated || !youtubeID || (youtubeUrl === "" )) return null
         const fetchURL: string = rootUrl + "/movie_fetch/"+youtubeID
-        setLoading(true)
+        //setLoading(true)
 
         try{
             const result = await Axios.get(fetchURL)
-            setLoading(false)
-            console.log({result})
+            //setLoading(false)
+            //console.log({result})
             if(result.data.status === "success"){
                 dispatch(fetchMovie(youtubeID, 
                     result.data.payload.title, 
@@ -152,20 +151,20 @@ export const useMovieInfo = () =>{
                     result.data.payload.state))
             }else{
                 if(result.data.error_code === "021"){            
-                    setError("限定公開動画は登録できません")
+                    //setError("限定公開動画は登録できません")
                 }
                 if(result.data.error_code === "011"){            
-                    setError("動画の読み込みに失敗しました")
+                    //setError("動画の読み込みに失敗しました")
                 }
             }
         }catch(error){
-            setLoading(false)
+            //setLoading(false)
             //const {status, statusText} = error.response
             //console.log(status, statusText)
             //setError(statusText)
         }
     }, [userState, dispatch])
-    return [movieState, getMovieInfo, loading, error]
+    return getMovieInfo
 }
 
 type APIStatus = 'initial' | 'waiting' | 'loading' | 'complete' | 'error'
@@ -178,7 +177,6 @@ export const SearchEffect = () => {
     const and:boolean  = searchState.andSearch
     const page: number = searchState.page
     const sort = searchState.sort
-    console.log(and)
 
     /*const queryObject = {
         q: query,                                                       
