@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Watch } from '../Watch/WatchPage';
-import { TextField, Button, Typography } from '@material-ui/core';
-import axios from 'axios';
+import { TextField, Button } from '@material-ui/core';
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { tagState } from '../Reducer/tagReducer'
 import { useMovieInfo } from '../components/customHooks';
 
 
 export const Editor = () => {
-    const [isLoaded, setIsLoaded] = useState<boolean>(false)
     const [movieState, getMovieInfo, loading, error] = useMovieInfo()
 
     const tagState: tagState = useSelector((state :any) => state.tagReducer)
@@ -23,7 +21,7 @@ export const Editor = () => {
 
     useEffect(() => {
         getMovieInfo(videoId, YouTubeUrl)
-    }, [videoId])
+    }, [videoId, YouTubeUrl, getMovieInfo])
 
 
     const changeYouTubeUrl = (e: any) => {
@@ -32,7 +30,6 @@ export const Editor = () => {
 
     const loadYouTubeUrl = (e:any) => {
         setVideoId(ExtractVideoId(YouTubeUrl))
-        setIsLoaded(true)
     }
     if(userState.authenticated){
         return(

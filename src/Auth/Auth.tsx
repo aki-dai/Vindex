@@ -2,11 +2,9 @@ import React from 'react'
 import { Redirect, useLocation } from "react-router"
 import qs from 'query-string'
 import { useDispatch, useSelector } from 'react-redux';
-import { authUser, setUserInfo } from '../Action/userAction'
+import { authUser } from '../Action/userAction'
 import { decodeJwt } from '../components/modules'
-import { rootUrl } from '../serverUrl'
 
-const userSelector = (state:any) => state.userReducer
 const authSelector = (state:any) => state.authReducer
 
 export const Auth = () =>{

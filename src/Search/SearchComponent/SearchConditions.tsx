@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Container } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import {SortSelect} from './SortComponents/SortSelect'
 import {queryToWord} from '../../components/functions'
 import { useLocation } from 'react-router';

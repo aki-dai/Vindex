@@ -1,4 +1,4 @@
-import { Tag, TagActionTypes } from '../Action/actionTypes'
+/*import { Tag, TagActionTypes } from '../Action/actionTypes'
 
 export interface tagState{
     youtubeID :string
@@ -36,4 +36,4 @@ const tagReducer = (state = initialState, action:TagActionTypes) => {
     }
 }
 
-export default tagReducer
+export default tagReducer*/

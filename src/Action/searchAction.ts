@@ -1,5 +1,4 @@
 import {SearchActionTypes, ResultIndex, sortType} from './actionTypes'
-import { queryToScope } from '../components/functions';
 
 export function SearchSubmit(q: string, sort: sortType, pagenation: boolean): SearchActionTypes{
     return {

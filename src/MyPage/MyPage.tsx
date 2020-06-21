@@ -1,6 +1,5 @@
 import React from 'react'
-import { Grid, List, ListItem, ListItemText, makeStyles, createStyles, Theme, Container, Typography, Button } from '@material-ui/core'
-import { sizing } from '@material-ui/system';
+import { Grid, List, ListItem, ListItemText, makeStyles, createStyles, Theme, Typography, Button } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux';
 import {signOut} from '../Action/userAction'
 import { useHistory } from 'react-router';
@@ -123,7 +122,7 @@ const MyProfile:React.FC = () => {
                         </Typography>
                     </Grid>
                     <Grid item>
-                        <img src={iconUrl} className={classes.icon}/>
+                        <img src={iconUrl} className={classes.icon} alt="User Icon"/>
                     </Grid>
                 </Grid>
                 <Grid container>

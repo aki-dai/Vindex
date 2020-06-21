@@ -1,11 +1,10 @@
-import React, { useState, useEffect }  from 'react';
-import {Select, MenuItem, TextField, InputLabel, FormControl, Input, Button, makeStyles, FormControlLabel, Switch} from '@material-ui/core/'
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState }  from 'react';
+import {Select, MenuItem, InputLabel, FormControl, makeStyles, FormControlLabel, Switch} from '@material-ui/core/'
+import { useDispatch } from 'react-redux';
 import {changeSearchRefine, changeSort} from '../../../Action/searchAction'
 import {sortType} from '../../../Action/actionTypes'
 import { useLocation } from 'react-router';
 import { queryToAnd, queryToSort } from "../../../components/functions";
-import { useSearch } from "../../../components/customHooks";
 
 const useStyles = makeStyles(theme => ({
     select:{
@@ -15,10 +14,8 @@ const useStyles = makeStyles(theme => ({
 
 export const SortSelect = () => {
     const location = useLocation()
-    const setSearch = useSearch()
     let initialRefine: string = "true"
     let initialSort: string = "latest"
-    const searchState = useSelector((state :any) => state.searchReducer)    
     const dispatch = useDispatch()
 
     if (location.search) {
@@ -34,7 +31,6 @@ export const SortSelect = () => {
         }
     },[])*/
     const [sortCondition, setSortCondition] = useState<string>(initialSort)
-    const [searchWord, setSearchWord] = useState<boolean>(true)
     const [searchRefine, setSearchRefine] = useState<boolean>((initialRefine === "true"))
     
     const SelectChange = (event: React.ChangeEvent<{value: unknown}>) => {

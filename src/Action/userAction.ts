@@ -1,4 +1,4 @@
-import {User, AUTH_USER, SET_USER_INFO, UPDATE_TOKENS, UPDATE_ACCESS_TOKEN, SIGN_OUT, LEAVE_USER, UserActionTypes, GET_USER_INFO} from './actionTypes'
+import {AUTH_USER, SET_USER_INFO, UPDATE_TOKENS, UPDATE_ACCESS_TOKEN, SIGN_OUT, LEAVE_USER, UserActionTypes, GET_USER_INFO} from './actionTypes'
 import { decodeJwt } from '../components/modules'
 /*
 interface UserInfoResponse{

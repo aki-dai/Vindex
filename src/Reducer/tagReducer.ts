@@ -110,7 +110,7 @@ const tagReducer = (state = initialState, action:TagActionTypes) => {
             const return_tags:Tag[] = []
             const change_tag = (action.tagType === "movie") ? state.movie.tags : state.editor.tags
             for(let i = 0; i < change_tag.length; i++){
-                if(i != action.numDeleteTag){
+                if(i !== action.numDeleteTag){
                     return_tags.push(change_tag[i])
                 }
             }
@@ -149,6 +149,7 @@ const tagReducer = (state = initialState, action:TagActionTypes) => {
                     ...state    
                 }
             }
+            break
         }
 
         default: {return state}

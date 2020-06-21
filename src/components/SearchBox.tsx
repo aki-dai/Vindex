@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {Select, MenuItem, TextField, InputLabel, FormControl, Input, Button, makeStyles} from '@material-ui/core/'
-import { textAlign } from '@material-ui/system';
-import { useHistory, useLocation } from 'react-router';
+import {Select, MenuItem, InputLabel, FormControl, Input, Button, makeStyles} from '@material-ui/core/'
+import { useLocation } from 'react-router';
 import { queryToWord, queryToScope} from './functions' 
 import { useSearch } from './customHooks'
 
@@ -32,7 +31,7 @@ export const SearchBox = () => {
 
     useEffect(() => {//画面遷移したときにquery parameterを反映する
         setSearchWord(initialWord)
-    }, [location.search])
+    }, [location.search, initialWord])
 
     const SelectChange = (event: React.ChangeEvent<{value: unknown}>) => {
         setSearchScope(event.target.value as string)

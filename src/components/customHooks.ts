@@ -1,4 +1,4 @@
-import { useState, useCallback, Dispatch, useEffect, } from "react";
+import { useState, useCallback, useEffect, } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Axios from "axios";
 import { getUserInfoStart ,setUserInfo, updateAccessToken} from "../Action/userAction";
@@ -8,7 +8,6 @@ import { rootUrl } from '../serverUrl'
 import queryString from 'query-string'
 import { useHistory } from 'react-router'
 import { SearchSubmit } from '../Action/searchAction'
-import { SortSelect } from "../Search/SearchComponent/SortComponents/SortSelect";
 import { sortType } from "../Action/actionTypes";
 
 
@@ -19,12 +18,11 @@ export const useSearch = () => {
     const defaultWord:string = searchState.query
     const refine:boolean = searchState.andSearch
     const sort:sortType = searchState.sort
-    const page:number = searchState.page
     const andQuery = (refine === true) ? "true" : "false"
     
     const setSearch = (searchWord:string = defaultWord, searchScope:string = "Tag", page:number, pagenation?: boolean) => {
         let isPagenation = false;
-        if (searchWord == "") return null
+        if (searchWord === "") return null
         if (pagenation) isPagenation = true
 
         const queryObject = {
@@ -105,7 +103,7 @@ export const UserInfoEffect = () => {
             }
         }
     )()},[
-        
+        dispatch, accessToken, userState.status
     ])
     
     useEffect(()=>{
@@ -125,7 +123,7 @@ export const UserInfoEffect = () => {
                 console.log(error)
             }
         }
-    )()},[userState])
+    )()},[userState, accessExp, dispatch, isAuthenticated, refreshToken])
     return null
 }
 
@@ -137,7 +135,7 @@ export const useMovieInfo = () =>{
     const dispatch = useDispatch()
 
     const getMovieInfo = useCallback(async (youtubeID: string, youtubeUrl :string) => {
-        if(!userState.authenticated || !youtubeID || (youtubeUrl == "" )) return null
+        if(!userState.authenticated || !youtubeID || (youtubeUrl === "" )) return null
         const fetchURL: string = rootUrl + "/movie_fetch/"+youtubeID
         setLoading(true)
 
@@ -145,7 +143,7 @@ export const useMovieInfo = () =>{
             const result = await Axios.get(fetchURL)
             setLoading(false)
             console.log({result})
-            if(result.data.status == "success"){
+            if(result.data.status === "success"){
                 dispatch(fetchMovie(youtubeID, 
                     result.data.payload.title, 
                     result.data.payload.channelName, 
@@ -166,14 +164,13 @@ export const useMovieInfo = () =>{
             //console.log(status, statusText)
             //setError(statusText)
         }
-    }, [loading, error, userState])
+    }, [userState, dispatch])
     return [movieState, getMovieInfo, loading, error]
 }
 
 type APIStatus = 'initial' | 'waiting' | 'loading' | 'complete' | 'error'
 
 export const SearchEffect = () => {
-    const history = useHistory()
     const searchState = useSelector((state:any) => state.searchReducer)
     const dispatch = useDispatch()
     const status = searchState.searchStatus
@@ -219,6 +216,6 @@ export const SearchEffect = () => {
                                            error))
             }
         }
-    )()}, [query, status])
+    )()}, [query, status, and, page, dispatch, sort])
     return null
 }

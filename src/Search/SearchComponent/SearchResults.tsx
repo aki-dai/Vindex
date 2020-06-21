@@ -1,6 +1,6 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux';
-import { ResultIndex, Tag } from '../../Action/actionTypes'
+import { useSelector } from 'react-redux';
+import { ResultIndex } from '../../Action/actionTypes'
 import { SearchContainer } from '../../components/SearchResults'
 
 export const SearchWrapper = () => {

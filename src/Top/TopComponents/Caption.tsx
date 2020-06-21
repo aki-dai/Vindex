@@ -1,6 +1,6 @@
 import React from 'react';
-import {Button, Typography, Grid, makeStyles} from '@material-ui/core/'
-import VindexLogo from '../../Vindex_logo.png'
+import {Typography, Grid, makeStyles} from '@material-ui/core/'
+import logo from '../../Vindex_logo.png'
 
 export const Caption = () => {
     return(
@@ -22,7 +22,7 @@ const Logo = () => {
                 Vindex
             </Typography>
         */}
-        <img src='./Vindex_logo.png' alt='Vindex' width={250} style={{margin:"0 auto",marginBottom: 20}}/>
+        <img src={logo} alt='Vindex' width={250} style={{margin:"0 auto",marginBottom: 20}}/>
         </>
     )
 }
@@ -50,7 +50,7 @@ const ServiceCaption= () => {
         </>
     )
 }
-
+/*
 const ResistButton = () => {
     return(
         <>
@@ -59,4 +59,4 @@ const ResistButton = () => {
             </Button>
         </>
     )
-}
+}*/

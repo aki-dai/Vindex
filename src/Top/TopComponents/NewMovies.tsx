@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import {SearchContainer} from '../../components/SearchResults'
-import { SearchEffect } from '../../components/customHooks'
 import Axios from 'axios'
 import { rootUrl } from '../../serverUrl'
-import { ResultIndex, Tag } from '../../Action/actionTypes'
+import { ResultIndex } from '../../Action/actionTypes'
 import { Typography, Grid, makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({

@@ -1,19 +1,18 @@
 import React, { useState } from 'react'
-import { Button, TextField, Typography, Icon, Grid, makeStyles } from '@material-ui/core';
+import { Button, TextField, Typography, Grid, makeStyles } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
-import { useLocation, useHistory } from 'react-router';
+import { useHistory } from 'react-router';
 import axios from 'axios';
 
 import { useDispatch, useSelector } from "react-redux";
 import {tagState} from '../../Reducer/tagReducer'
 import {userState} from '../../Reducer/userReducer'
-import {Tag, User, tagTypes} from '../../Action/actionTypes'
-import {loadTag, addTag, deleteTag, updateTag} from '../../Action/tagAction'
+import {Tag, tagTypes} from '../../Action/actionTypes'
+import {addTag, deleteTag} from '../../Action/tagAction'
 import { updateAccessToken, signOut } from '../../Action/userAction';
 import { refreshAccessToken } from '../../components/modules'
 import {rootUrl} from '../../serverUrl'
 import {useSearch} from '../../components/customHooks'
-import { ThemeConsumer } from 'styled-components';
 
 const tagSelector = (state :any) => {return state.tagReducer}
 const userSelector = (state :any) => {return state.userReducer}
@@ -38,7 +37,6 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
     const dispatch = useDispatch()
     const tagState:tagState = useSelector(tagSelector)
     const userState:userState = useSelector(userSelector)
-    const location = useLocation()
     const setSearch = useSearch()
 
     const isMoviePage = (tagType === "movie") 
@@ -64,7 +62,7 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
             setTextField(e.target.value)
     }
     const onEnter = (e:any) => {
-        if(e.keyCode==13){
+        if(e.keyCode===13){
             setNewTag()
         }
     }
@@ -355,7 +353,7 @@ const TagButton:React.FC<TagButtonProps> = ({props, isToggled, isEditing, isAuth
             </>
         )
     }
-
+    /*
     const TagMenu = () => {
         const location = useLocation()
         const MenuStyle = {
@@ -370,7 +368,7 @@ const TagButton:React.FC<TagButtonProps> = ({props, isToggled, isEditing, isAuth
                 <span onClick={() => setSearch(props ,"Tag", 1)} style={{cursor: "pointer"}}>このタグで検索</span>
             </div>
         )
-    }
+    }*/
 
     return(
         <>

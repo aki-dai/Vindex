@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Route, Switch, useLocation } from 'react-router-dom';
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -9,7 +9,6 @@ import {WatchModal} from './Watch/WatchModal';
 import {Search} from './Search/SearchPage';
 import {Editor} from './Editor/Editor'
 import {Auth} from './Auth/Auth'
-import { NotificationModal } from './Notification/NotificationModal'
 
 import * as H from 'history'
 import { Container, Grid, Box, makeStyles, Theme, createStyles } from '@material-ui/core';

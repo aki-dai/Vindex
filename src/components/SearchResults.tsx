@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardMedia, Typography, Button, Card, CardActions, CardContent, Container, makeStyles, Grid, Paper, Box } from '@material-ui/core';
+import { CardMedia, Typography, Button, Card, CardContent, makeStyles, Grid } from '@material-ui/core';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { ResultIndex, Tag } from '../Action/actionTypes'
@@ -38,7 +38,7 @@ export const SearchContainer:React.FC<SearchContainerType> = ({props, count, pag
     return(
         <>
             <Grid container className={classes.root}>
-                {(option != "latest") &&
+                {(option !== "latest") &&
                 (<Grid item className={classes.pagination}>
                     <Pagination count={p_count} page={page} onChange={pageTrans}/>
                 </Grid>)}
@@ -46,7 +46,7 @@ export const SearchContainer:React.FC<SearchContainerType> = ({props, count, pag
                     {props.map((value:ResultIndex, index:number) => <SearchResult {...value} key={index}/>)}
                 </Grid>
                 
-                {(option != "latest") &&
+                {(option !== "latest") &&
                 (<Grid item className={classes.pagination}>
                     <Pagination count={p_count} page={page} onChange={pageTrans}/>
                 </Grid>)}
@@ -74,7 +74,6 @@ const useCardStyles = makeStyles(theme => ({
 const SearchResult:React.FC<ResultIndex> = (props) => {
     let location = useLocation()
     let history = useHistory()
-    const vid: string = props.youtube_id
     const thumbUrl:string = props.thumbnail
     const classes = useCardStyles()
     const dispatch =  useDispatch()

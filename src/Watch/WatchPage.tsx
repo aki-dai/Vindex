@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import { Container, Grid, Box, Typography, makeStyles } from '@material-ui/core';
+import { Grid, Typography, makeStyles } from '@material-ui/core';
 import ReactPlayer from 'react-player'
 import { useParams } from 'react-router';
 import { TagForm } from './WatchComponents/TagForm';
-import {RouteComponentProps} from 'react-router-dom'
-import { tagTypes, Tag } from '../Action/actionTypes'
+import { tagTypes } from '../Action/actionTypes'
 import Axios from 'axios';
 import {rootUrl} from '../serverUrl'
 import { useSelector, useDispatch } from 'react-redux';
@@ -36,7 +35,6 @@ const useWatchPageStyle = makeStyles(theme => ({
 export const Watch:React.FC<WatchPageProps> = ({youtubeID, title, channelName, tagType}) => {
     let urlParams= useParams<RouteParams>()
     let vid: string
-    let tags: Tag[]
     const tagState = useSelector((state:any) => state.tagReducer)
     const dispatch = useDispatch()
     if(urlParams.id) vid = urlParams.id
@@ -56,12 +54,9 @@ export const Watch:React.FC<WatchPageProps> = ({youtubeID, title, channelName, t
                 ).then((res) => {
                     const status = res.data.status
                     if(status === "success"){
-                        tags = res.data.payload.tag
-                        console.log({res, tags, tagType})
-                        dispatch(loadTag(vid, tags, tagType))
+                        dispatch(loadTag(vid, res.data.payload.tag, tagType))
                     }else if(res.data.error_code === "010"){
-                        tags = []
-                        dispatch(loadTag(vid, tags, tagType))    
+                        dispatch(loadTag(vid, [], tagType))    
                     }
                 }).catch((error) => {
                     console.log({error})
@@ -73,18 +68,15 @@ export const Watch:React.FC<WatchPageProps> = ({youtubeID, title, channelName, t
                      ).then((res) => {
                          const status = res.data.status
                          if(status === "success"){
-                             tags = res.data.payload.tag
-                             console.log({res, tags, tagType})
-                             dispatch(loadTag(vid, tags, tagType))
+                             dispatch(loadTag(vid, res.data.payload.tag, tagType))
                          }else if(res.data.error_code === "010"){
-                             tags = []
-                             dispatch(loadTag(vid, tags, tagType))    
+                             dispatch(loadTag(vid, [], tagType))    
                          }
                      }).catch((error) => {
                          console.log({error})
                      })
              }
-        },[vid])
+        },[vid, dispatch, tagState.editor.youtubeID, tagState.movie.youtubeID, tagType])
     let url:string = "https://www.youtube.com/watch?v=" + vid
 
     const config={

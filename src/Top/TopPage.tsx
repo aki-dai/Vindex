@@ -1,8 +1,7 @@
 import React from 'react';
 import { Caption } from './TopComponents/Caption'
 import { SearchBox } from '../components/SearchBox'
-import Header from '../components/Header'
-import { Container, Grid, Box, makeStyles, Theme, createStyles } from '@material-ui/core';
+import { Grid, makeStyles, Theme, createStyles } from '@material-ui/core';
 import { NewMovies } from './TopComponents/NewMovies';
 
 const useStyles = makeStyles((theme: Theme) =>

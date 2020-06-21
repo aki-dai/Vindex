@@ -1,16 +1,14 @@
 import React, {useState} from 'react';
 import axios from 'axios'
-import { AppBar, Typography, Toolbar, Button, Grid, makeStyles, Theme, createStyles, IconButton, Hidden, ListItem, ListItemText, Drawer, SwipeableDrawer } from '@material-ui/core';
-import { Link } from 'react-router-dom'
+import { AppBar, Typography, Toolbar, Button, Grid, makeStyles, Theme, createStyles, IconButton, Hidden, ListItem, ListItemText, SwipeableDrawer } from '@material-ui/core';
 import { useHistory, useLocation } from 'react-router'
 import { useSelector, useDispatch } from 'react-redux';
 //import { UseGetUserInfo } from './customHooks'
-import { refreshAccessToken } from '../components/modules'
-import { useErrorHandle } from './errorHandle';
 import {rootUrl} from '../serverUrl'
 import {setRedirectUrl} from '../Action/authAction'
 import MenuIcon from '@material-ui/icons/Menu';
 import TwitterIcon from '../Twitter_Logo_WhiteOnBlue.png'
+import logo from '../Vindex_logo.png'
 
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
@@ -82,10 +80,12 @@ const useStyles = makeStyles((theme: Theme)=>
     config: AxiosRequestConfig;
     }
  */
+
+/*
 const newAccessToken = async (refreshToken: string) => {
     const resAccessToken = await refreshAccessToken(refreshToken)
     return resAccessToken
-}
+}*/
 
 const Header = () => {
     const history = useHistory()
@@ -94,7 +94,7 @@ const Header = () => {
     const userState = useSelector((state:any)=> state.userReducer)
     //const [userState, getUserInfo, loading, error] = useGetUserInfo()
     const dispatch = useDispatch()
-    const [errorHandle] = useErrorHandle()
+    //const [errorHandle] = useErrorHandle()
     const [drawerState, setDrawerState] = useState<boolean>(false)
     let iOS = false
 
@@ -158,13 +158,13 @@ const Header = () => {
                             <Typography variant={'body1'} className={classes.userNameDrawer}>
                                         {userState.userName}
                             </Typography>
-                            <img src={userState.image} className={classes.userIcon}/>
+                            <img alt="Icon" src={userState.image} className={classes.userIcon}/>
                         </>
                     )
                 }                            
                 {!userState.authenticated && (
                     <ListItem button onClick={twitterLogin} className={classes.twitterLogin}>
-                        <img src={TwitterIcon} width={25} className={classes.twitterIcon}/>
+                        <img alt = "Icon" src={TwitterIcon} width={25} className={classes.twitterIcon}/>
                         Twitterでログイン
                     </ListItem>
                 )}
@@ -196,9 +196,9 @@ const Header = () => {
                             </SwipeableDrawer>
                         </Hidden>
 
-                        <a onClick={linkToTop} className={classes.logo}>
-                            <img src='./Vindex_logo.png' alt='Vindex' width={100} height={100/720*170}   />
-                        </a>
+                        <span onClick={linkToTop} className={classes.logo}>
+                            <img src={logo} alt='Vindex' width={100} height={100/720*170}   />
+                        </span>
                         <Hidden smDown>                        
                             <Button href="/about" className={classes.headerLink}>
                                 このサイトについて
@@ -223,12 +223,12 @@ const Header = () => {
                                     <Typography variant={'body1'} className={classes.userName}>
                                         {userState.userName}
                                     </Typography>
-                                    <img src={userState.image} className={classes.userIcon}/>
+                                    <img alt = "Icon" src={userState.image} className={classes.userIcon}/>
                                 </>
                             )}
                             {!userState.authenticated && (
                                 <Button onClick={twitterLogin} variant={"outlined"} className={classes.twitterLogin}>
-                                    <img src={TwitterIcon} width={25} className={classes.twitterIcon}/>
+                                    <img src={TwitterIcon} width={25} className={classes.twitterIcon} alt={"Login"}/>
                                     Twitterでログイン
                                 </Button>
                             )}
