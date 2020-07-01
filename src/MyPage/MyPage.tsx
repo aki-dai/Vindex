@@ -1,5 +1,6 @@
 import React from 'react'
-import { Grid, List, ListItem, ListItemText, makeStyles, createStyles, Theme, Typography, Button } from '@material-ui/core'
+/*List, ListItem, ListItemText,*/
+import { Grid, makeStyles, createStyles, Theme, Typography, Button } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux';
 import {signOut} from '../Action/userAction'
 import { useHistory } from 'react-router';
@@ -62,10 +63,10 @@ export const MyPage = () => {
         return(
             <>
                 <Grid container className={classes.root} spacing={2}>
-                    <Grid container item xs={12} md={3} className={classes.menuContainer}>
+                    {/*<Grid container item xs={12} md={3} className={classes.menuContainer}>
                         <Menu />
-                    </Grid>
-                    <Grid container item xs={12} md={9} className={classes.profileContainer}>
+                    </Grid>*/}
+                    <Grid container item xs={12} md={12} className={classes.profileContainer}>
                         <MyProfile />
                     </Grid>
                 </Grid>
@@ -80,7 +81,7 @@ export const MyPage = () => {
     }
 
 }
-
+/*
 const Menu:React.FC = () => {
     const classes = useStyles()
     return(
@@ -97,7 +98,7 @@ const Menu:React.FC = () => {
             </div>
         </>
     )
-}
+}*/
 
 
 const MyProfile:React.FC = () => {
