@@ -114,7 +114,6 @@ const tagReducer = (state = initialState, action:TagActionTypes) => {
                     return_tags.push(change_tag[i])
                 }
             }
-            console.log({change_tag})
             if(action.tagType === "movie"){
                 return{
                     ...state,
