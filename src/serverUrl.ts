@@ -1,1 +1,1 @@
-export const rootUrl = 'https://vindex-api.net/api/v1/'
+export const rootUrl = 'http://localhost:3000/api/v1'
