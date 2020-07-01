@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Watch } from '../Watch/WatchPage';
-import { TextField, Button } from '@material-ui/core';
+import { TextField, Button, makeStyles } from '@material-ui/core';
 
 import { useSelector } from "react-redux";
 import { tagStateTypes } from '../Reducer/tagReducer'
@@ -73,10 +73,17 @@ interface YouTubeUrlInputProps{
     YouTubeUrl: string
 }
 
+const useStyles = makeStyles(theme => ({
+    URLInput:{
+        marginTop: -12,
+    },
+}))
+
 const YouTubeUrlInput:React.FC<YouTubeUrlInputProps> = ({changeYouTubeUrl, loadYouTubeUrl, YouTubeUrl}) => {
+    const classes = useStyles()
     return(
         <>
-            <TextField onChange={(e) => changeYouTubeUrl(e)} value={YouTubeUrl} />
+            <TextField onChange={(e) => changeYouTubeUrl(e)} value={YouTubeUrl} label="YouTubeのURL" className={classes.URLInput}/>
             <Button onClick={loadYouTubeUrl}>
                 動画を読み込む
             </Button>
