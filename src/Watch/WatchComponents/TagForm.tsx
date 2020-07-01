@@ -121,6 +121,11 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
         //else sendData = tagState.editor
         sendData = (tagType === "movie")? tagState.movie : tagState.editor
 
+        if(sendData.tags.length === 0){
+            setError("1つ以上のタグを付けて登録してください")
+            return null
+        }
+
         const accessToken = userState.accessToken
         const postResponce = await postNewMovie(accessToken, sendData, tagType)
         //console.log(postResponce)
@@ -312,8 +317,11 @@ export const TagForm :React.FC<TagFormProps> = ({youtubeID, tagType}) => {
                     タグを追加する
                 </Button>
             )}
-                
-            {errorMessage}
+            <div>
+                <span style={{color: "#d60"}}>
+                    {errorMessage}
+                </span>
+            </div>
             {(isNotificationModal && isMoviePage) && <TagUpdateModal />}
             {(isNotificationModal && isEditPage)  && <MoviePostModal />}
             </div>
