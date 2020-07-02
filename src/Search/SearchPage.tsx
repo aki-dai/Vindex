@@ -2,9 +2,10 @@ import React from 'react';
 import { SearchBox } from '../components/SearchBox'
 import { SearchConditions } from './SearchComponent/SearchConditions'
 import { SearchWrapper } from './SearchComponent/SearchResults'
-import { SearchEffect } from '../components/customHooks'
+import { SearchEffect, TitleChangeEffect } from '../components/customHooks'
 
 import { Grid, makeStyles } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
     root:{
@@ -21,8 +22,11 @@ const useStyles = makeStyles(theme => ({
 
 export const Search: React.FC = () => {
     const classes = useStyles()
+    const query: string = useSelector((state:any) => state.searchReducer.query)
     return(
         <>
+        
+          <TitleChangeEffect title={`${query} - Vindex`} />
             <Grid container className = {classes.root}>
                 <SearchEffect />
                 <Grid container className = {classes.container}>

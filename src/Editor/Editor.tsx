@@ -4,7 +4,7 @@ import { TextField, Button, makeStyles } from '@material-ui/core';
 
 import { useSelector } from "react-redux";
 import { tagStateTypes } from '../Reducer/tagReducer'
-import { useMovieInfo } from '../components/customHooks';
+import { useMovieInfo, TitleChangeEffect } from '../components/customHooks';
 
 
 export const Editor = () => {
@@ -34,6 +34,7 @@ export const Editor = () => {
     if(userState.authenticated){
         return(
             <>
+                <TitleChangeEffect title="動画登録 - Vindex" />
                 <YouTubeUrlInput 
                     changeYouTubeUrl={changeYouTubeUrl}
                     loadYouTubeUrl={loadYouTubeUrl} 

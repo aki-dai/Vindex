@@ -75,6 +75,15 @@ export const useSearch = () => {
     }, [])
     return [userState, getUserInfo, loading, error]
 }*/
+type titleProps = {
+    title: string
+}
+export const TitleChangeEffect = (props: titleProps) => {
+    useEffect(() => {
+        document.title = props.title
+    }, [props])
+    return null
+}
 
 export const UserInfoEffect = () => {
     const userState = useSelector((state:any) => state.userReducer)

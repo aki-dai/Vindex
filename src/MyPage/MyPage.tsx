@@ -4,6 +4,7 @@ import { Grid, makeStyles, createStyles, Theme, Typography, Button } from '@mate
 import { useSelector, useDispatch } from 'react-redux';
 import {signOut} from '../Action/userAction'
 import { useHistory } from 'react-router';
+import { TitleChangeEffect } from '../components/customHooks';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -114,7 +115,8 @@ const MyProfile:React.FC = () => {
         history.push('/')
     }
     return(
-        <>
+        <>    
+            <TitleChangeEffect title="マイページ - Vindex" />
             <Grid container className={classes.profile} > 
                 <Grid container justify={"space-between"} alignItems={"center"} direction="row">
                     <Grid item>

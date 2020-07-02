@@ -13,7 +13,7 @@ import {Auth} from './Auth/Auth'
 import * as H from 'history'
 import { Container, Grid, Box, makeStyles, Theme, createStyles } from '@material-ui/core';
 import { MyPage } from './MyPage/MyPage';
-import { UserInfoEffect } from './components/customHooks';
+import { UserInfoEffect, TitleChangeEffect } from './components/customHooks';
 
 //Modal.setAppElement('#root')
 const useStyles = makeStyles((theme: Theme) =>
@@ -38,9 +38,9 @@ const App: React.FC = () => {
   //console.log({location})
   let background = location.state && location.state.background
   const classes = useStyles()
-
   return (
     <>
+      <TitleChangeEffect title="Vindex"/>
       <UserInfoEffect />
       <Header />
         <Container maxWidth="lg">
@@ -52,13 +52,13 @@ const App: React.FC = () => {
                 <Route path="/watch/:id">
                   <Watch tagType={"movie"}/>
                 </Route>
-                <Route path="/search">
+                <Route path="/search"　title="検索結果 - Vindex">
                   <Search />
                 </Route>
-                <Route path="/registration">
+                <Route path="/registration"　title="動画の登録 - Vindex">
                   <Editor />
                 </Route>
-                <Route path="/mypage">
+                <Route path="/mypage" title="マイページ - Vindex">
                   <MyPage />
                 </Route>
                 <Route path="/auth">
