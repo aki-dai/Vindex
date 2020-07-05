@@ -8,7 +8,11 @@ import {Watch} from './Watch/WatchPage';
 import {WatchModal} from './Watch/WatchModal';
 import {Search} from './Search/SearchPage';
 import {Editor} from './Editor/Editor'
+import {About} from './Static/about'
+import {Update} from './Static/update'
 import {Auth} from './Auth/Auth'
+import {UseTerm} from './Static/useTerm'
+import {PrivacyPolicy} from './Static/privacyPolicy'
 
 import * as H from 'history'
 import { Container, Grid, Box, makeStyles, Theme, createStyles } from '@material-ui/core';
@@ -52,14 +56,26 @@ const App: React.FC = () => {
                 <Route path="/watch/:id">
                   <Watch tagType={"movie"}/>
                 </Route>
-                <Route path="/search"　title="検索結果 - Vindex">
+                <Route path="/search">
                   <Search />
                 </Route>
-                <Route path="/registration"　title="動画の登録 - Vindex">
+                <Route path="/registration">
                   <Editor />
                 </Route>
-                <Route path="/mypage" title="マイページ - Vindex">
+                <Route path="/mypage">
                   <MyPage />
+                </Route>
+                <Route path="/about">
+                  <About />
+                </Route>
+                <Route path="/update">
+                  <Update />
+                </Route>
+                <Route path="/useTerm">
+                  <UseTerm />
+                </Route>
+                <Route path="/privacyPolicy">
+                  <PrivacyPolicy />
                 </Route>
                 <Route path="/auth">
                   <Auth />
