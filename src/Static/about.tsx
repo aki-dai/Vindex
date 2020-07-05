@@ -25,7 +25,7 @@ export const About: React.FC = () => {
             </Grid>
             <h1>運営について</h1>
             <Grid className={classes.body}>
-                    このサービスの開発、運用はAkidai個人によって行われます。<br/>
+                    このサービスの開発、運用はあっきぃ(<a href="https://twitter.com/Ackey_coder">@Ackey_coder</a>)個人によって行われます。<br/>
                     あくまで個人の趣味の範疇で行われるため、全ての要望に応えることはできません。<br/>
                     またお問い合わせへの対応が遅くなる場合があります。<br/>
                     予めご了承ください。<br/>
@@ -59,8 +59,9 @@ export const About: React.FC = () => {
             
             <h1>お問い合わせ</h1>
             <Grid className={classes.body}>
-                    このサービスに関するお問い合わせは、akidaiのTwitterのDM宛にお願いいたします。
-
+                    このサービスに関するお問い合わせは、以下のメールアドレス宛にお願いいたします。<br/>
+                    <br/>
+                    vindexsearch.contact[at]gmail.com
             </Grid>
         </>
     )
