@@ -28,7 +28,7 @@ export const Update: React.FC = () => {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                         >
-                            <Typography className={classes.content}>2020/7/4　公開</Typography>
+                            <Typography className={classes.content}>2020/7/6　公開</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             <Typography>
