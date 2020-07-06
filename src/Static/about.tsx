@@ -37,7 +37,9 @@ export const About: React.FC = () => {
             <h1>登録された動画について</h1>
             <Grid className={classes.body}>
                 一度登録された動画に関して、基本的に登録を解除することはできません。ご注意ください。<br/>
-                万が一間違えて登録した場合は、以下のお問い合わせより、Twitterのユーザー名、ユーザーID、削除したい動画のIDもしくはURLをお知らせください<br/>
+                万が一間違えて登録した場合は、以下のフォームより、Twitterのユーザー名、ユーザーID、削除したい動画のIDもしくはURLをお知らせください<br/>
+                <br/>
+                https://forms.gle/mw9vgUCMLguXhS7J6<br/>
             </Grid>
             <h1>禁止事項</h1>
             <Grid className={classes.body}>
